@@ -234,11 +234,11 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - [x] **TODO 138**
 - [x] **TODO 139**
 - [x] **TODO 140**
-- [ ] **TODO 141**
+- [x] **TODO 141**
 - [x] **TODO 142**
 - [x] **TODO 143**
 - [x] **TODO 144**
-- [ ] **TODO 145**
+- [x] **TODO 145**
 
 ---
 
@@ -295,4 +295,6 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 | Base NL parse (100 ex) | 98.67% aggregate |
 | LoRA after-training (100 ex) | 17.67% aggregate (value gate failed) |
 | Docker smoke | API + Streamlit up |
-| CI on push | pending TODO 141 after push |
+| CI on push | green (run 28218081026) |
+- TODO 141: GitHub Actions CI green on push (ubuntu + windows).
+- TODO 145: Pushed commits 12608b8 and 43f9c5f to origin/main.
