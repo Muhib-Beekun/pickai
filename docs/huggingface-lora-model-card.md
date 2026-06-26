@@ -74,8 +74,9 @@ Full schema: [PickAI contracts](https://github.com/Muhib-Beekun/pickai/blob/main
 | LoRA alpha | 32 |
 | LoRA dropout | 0.05 |
 | Target modules | `q_proj`, `k_proj`, `v_proj`, `o_proj` |
-| Training rows | 3,066 (synthetic + agentic-refined JSONL) |
-| Max steps | 100 (bounded run; early stop before full epoch) |
+| Training rows | 2,966 (2,900 synthetic train + 66 refined; 100 hash holdout excluded) |
+| Max steps | 150 |
+| Prompt format | Eval-aligned (`pickai/inference/nl_parse_prompt.py`) with label masking on prompt tokens |
 | Batch size | 1 × gradient accumulation 8 |
 | Learning rate | 2e-4 (linear decay) |
 | Precision | fp16 |
@@ -105,24 +106,32 @@ Training script: [`scripts/train_lora_nl_parse.py`](https://github.com/Muhib-Bee
 
 ## Evaluation
 
-100 held-out examples from the synthetic dataset. Scoring: exact field match on `equipment_mode`, `start_position`, and `ladder_must_stay_in_aisle` after JSON parse.
+100 held-out examples (deterministic hash split). Scoring: exact field match on `equipment_mode`, `start_position`, and `ladder_must_stay_in_aisle`.
+
+**Parity pass (prompt-aligned train + eval, June 2026)**
 
 | Metric | Base (Ollama) | This LoRA |
 | --- | ---: | ---: |
-| **Aggregate field match** | **99.33%** | **17.67%** |
-| Equipment mode | 98.00% | 0.00% |
-| Ladder position | 100.00% | 0.00% |
-| Aisle constraint | 100.00% | 53.00% |
+| **Aggregate field match** | **100.00%** | **44.67%** |
+| Equipment mode | 100.00% | 28.00% |
+| Ladder position | 100.00% | 28.00% |
+| Aisle constraint | 100.00% | 78.00% |
 
-**Value gate: failed.** PickAI does not enable this adapter by default.
+**First run (misaligned train prompt, tail holdout)**
+
+| Metric | Base (Ollama) | This LoRA |
+| --- | ---: | ---: |
+| Aggregate field match | 99.33% | 17.67% |
+
+**Value gate: failed.** PickAI does not enable this adapter by default. Parity fixes improved LoRA from 17.67% to 44.67% aggregate but base Qwen still wins.
 
 Full write-up: [docs/fine-tune-eval.md](https://github.com/Muhib-Beekun/pickai/blob/main/docs/fine-tune-eval.md)
 
 **Likely causes (working hypotheses)**
 
 - Base Qwen via Ollama was already near ceiling before training
-- Fine-tune prompt format differs from Ollama chat inference at runtime
-- Synthetic phrasing overfit; ladder `start_position` underrepresented in refined subset (66/200 retained)
+- First run used a different train prompt than eval; parity pass corrected that gap partially
+- Synthetic phrasing still overfits; ladder `start_position` remains the weakest field
 
 ---
 
@@ -149,17 +158,15 @@ model = PeftModel.from_pretrained(model, adapter)
 model.eval()
 ```
 
-Example prompt format (matches training):
+Example prompt format (matches training and eval):
 
 ```python
-prompt = (
-    "Instruction:\nUse forklift mode and keep the ladder in aisle 3.\n\n"
-    "Input:\n{\"wave_id\": \"W-001\", \"line_count\": 12}\n\n"
-    "Output:\n"
+from pickai.inference.nl_parse_prompt import build_nl_parse_prompt
+
+prompt = build_nl_parse_prompt(
+    "Use forklift mode and keep the ladder in aisle 3.",
+    {"orders": 7, "lines": 12, "x_min": 2.0, "x_max": 24.0, "y_min": 7.0, "y_max": 42.0},
 )
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-out = model.generate(**inputs, max_new_tokens=256)
-print(tokenizer.decode(out[0], skip_special_tokens=True))
 ```
 
 ---

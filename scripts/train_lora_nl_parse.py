@@ -10,14 +10,19 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from pickai.inference.dataset_split import split_holdout
+from pickai.inference.nl_parse_prompt import build_nl_parse_completion, build_nl_parse_prompt
+
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 SYNTHETIC = PROJECT_ROOT / "data" / "synthetic" / "synthetic_nl_parse.jsonl"
 REFINED = PROJECT_ROOT / "data" / "synthetic" / "refined_nl_parse.jsonl"
+HOLDOUT_PATH = PROJECT_ROOT / "data" / "synthetic" / "holdout_nl_parse.jsonl"
 OUT_DIR = PROJECT_ROOT / "outputs" / "lora"
 LOG_FILE = PROJECT_ROOT / "outputs" / "lora_train_log.json"
 BASE_MODEL = os.getenv("PICKAI_TRAIN_BASE_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+HOLDOUT_N = int(os.getenv("PICKAI_HOLDOUT_N", "100"))
 
 
 def _read_rows(path: Path) -> list[dict]:
@@ -26,22 +31,23 @@ def _read_rows(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
-def _to_text_example(row: dict) -> str:
-    return (
-        "Instruction:\n"
-        + row["instruction"]
-        + "\n\nInput:\n"
-        + json.dumps(row["input"])
-        + "\n\nOutput:\n"
-        + json.dumps(row["output"]["constraints"])
-    )
+def _training_text(row: dict) -> str:
+    prompt = build_nl_parse_prompt(row["instruction"], row["input"])
+    completion = build_nl_parse_completion(row["output"]["constraints"])
+    return prompt + completion
 
 
 def main() -> None:
-    rows = _read_rows(SYNTHETIC)
-    rows += _read_rows(REFINED)
-    if not rows:
-        raise RuntimeError("No training rows found. Generate synthetic and refine datasets first.")
+    synthetic_rows = _read_rows(SYNTHETIC)
+    refined_rows = _read_rows(REFINED)
+    if not synthetic_rows:
+        raise RuntimeError("No synthetic rows found. Run scripts/generate_synthetic_jsonl.py first.")
+
+    train_synthetic, holdout = split_holdout(synthetic_rows, holdout_n=HOLDOUT_N)
+    train_rows = train_synthetic + refined_rows
+
+    HOLDOUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    HOLDOUT_PATH.write_text("\n".join(json.dumps(row) for row in holdout) + "\n", encoding="utf-8")
 
     try:
         import torch
@@ -58,11 +64,35 @@ def main() -> None:
     if "3090" not in device_name:
         raise RuntimeError(f"GPU policy violation: expected RTX 3090, found {device_name}")
 
-    dataset = Dataset.from_dict({"text": [_to_text_example(row) for row in rows]})
-
     tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+
+    def tokenize_row(row: dict) -> dict:
+        prompt = build_nl_parse_prompt(row["instruction"], row["input"])
+        completion = build_nl_parse_completion(row["output"]["constraints"])
+        full = prompt + completion
+        prompt_ids = tokenizer(prompt, add_special_tokens=False)["input_ids"]
+        encoded = tokenizer(full, truncation=True, max_length=1024, padding="max_length")
+        labels = encoded["input_ids"].copy()
+        prompt_token_count = min(len(prompt_ids), len(labels))
+        for idx in range(prompt_token_count):
+            labels[idx] = -100
+        if encoded["attention_mask"][-1] == 0:
+            for idx, mask in enumerate(encoded["attention_mask"]):
+                if mask == 0:
+                    labels[idx] = -100
+        encoded["labels"] = labels
+        return encoded
+
+    tokenized_rows = [tokenize_row(row) for row in train_rows]
+    dataset = Dataset.from_dict(
+        {
+            "input_ids": [row["input_ids"] for row in tokenized_rows],
+            "attention_mask": [row["attention_mask"] for row in tokenized_rows],
+            "labels": [row["labels"] for row in tokenized_rows],
+        }
+    )
 
     model = AutoModelForCausalLM.from_pretrained(
         BASE_MODEL,
@@ -81,17 +111,10 @@ def main() -> None:
     )
     model = get_peft_model(model, lora_config)
 
-    def tokenize(batch):
-        enc = tokenizer(batch["text"], truncation=True, max_length=1024, padding="max_length")
-        enc["labels"] = enc["input_ids"].copy()
-        return enc
-
-    tokenized = dataset.map(tokenize, batched=True, remove_columns=["text"])
-
     args = TrainingArguments(
         output_dir=str(OUT_DIR),
         num_train_epochs=1,
-        max_steps=int(os.getenv("PICKAI_MAX_STEPS", "800")),
+        max_steps=int(os.getenv("PICKAI_MAX_STEPS", "150")),
         per_device_train_batch_size=1,
         gradient_accumulation_steps=8,
         learning_rate=2e-4,
@@ -102,7 +125,7 @@ def main() -> None:
         report_to=[],
     )
 
-    trainer = Trainer(model=model, args=args, train_dataset=tokenized)
+    trainer = Trainer(model=model, args=args, train_dataset=dataset)
 
     status = "success"
     note = ""
@@ -129,7 +152,10 @@ def main() -> None:
                 "status": status,
                 "note": note,
                 "base_model": BASE_MODEL,
-                "rows": len(rows),
+                "train_rows": len(train_rows),
+                "holdout_rows": len(holdout),
+                "refined_rows": len(refined_rows),
+                "prompt_format": "eval_aligned",
                 "gpu": device_name,
             },
             indent=2,
@@ -140,7 +166,7 @@ def main() -> None:
     if status != "success":
         raise RuntimeError(f"Training did not complete: {status} - {note}")
 
-    print(f"LoRA adapter saved to {OUT_DIR}")
+    print(f"LoRA adapter saved to {OUT_DIR} ({len(train_rows)} train rows, {len(holdout)} holdout excluded)")
 
 
 if __name__ == "__main__":

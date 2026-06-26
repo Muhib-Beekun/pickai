@@ -161,7 +161,7 @@ Full schema: [PickAI contracts](https://github.com/Muhib-Beekun/pickai/blob/main
 | **train (default)** | `synthetic_nl_parse.jsonl` | ~3,000 | Primary synthetic corpus |
 | **refined (repo-local)** | `refined_nl_parse.jsonl` | 66 | Agentic refine pass; merged into LoRA training (3,066 total) |
 | **sample** | `sample.jsonl` | 50 | Public preview; committed on GitHub |
-| **eval holdout** | local only | 100 | Held out for [`eval_nl_parse.py`](https://github.com/Muhib-Beekun/pickai/blob/main/scripts/eval_nl_parse.py); not uploaded |
+| **eval holdout** | local only | 100 | Deterministic hash split; see `scripts/eval_nl_parse.py` |
 
 Recommended: treat **`output.constraints`** as the supervised target. Hold out 100+ rows before training; do not evaluate on training phrasing alone.
 
@@ -207,9 +207,11 @@ flowchart TD
 
 ## Evaluation context
 
-Base [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) via Ollama reached **99.33%** aggregate field match on 100 held-out examples. A LoRA trained on this dataset **regressed** to 17.67%. See [fine-tune eval](https://github.com/Muhib-Beekun/pickai/blob/main/docs/fine-tune-eval.md) and the [model card](https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora).
+Holdout: 100 rows via deterministic hash split (not tail rows). Prompt format shared with training via `pickai/inference/nl_parse_prompt.py`.
 
-Known gap: **`start_position`** / ladder fields were the main failure mode in agentic refine (134/200 rows rejected).
+**Parity pass (prompt-aligned, June 2026):** base [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) via Ollama **100.00%** aggregate; LoRA **44.67%** (up from 17.67% before prompt alignment). Value gate failed. See [fine-tune eval](https://github.com/Muhib-Beekun/pickai/blob/main/docs/fine-tune-eval.md) and the [model card](https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora).
+
+Known gap: **`start_position`** / ladder fields remain the main failure mode in agentic refine (134/200 rows rejected).
 
 ---
 

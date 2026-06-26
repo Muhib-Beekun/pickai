@@ -37,7 +37,7 @@ The **optimizer runs without any LLM**. Ollama is only for the Streamlit chat pa
 
 When enabled, a local model parses supervisor language into validated constraint JSON (equipment mode, ladder position, aisle rules). Pydantic validation and bounded retries run before the solver. **OR-Tools or the heuristic engine computes all distances and tour order.**
 
-Base `qwen2.5:7b-instruct` via Ollama reached 99.33% aggregate field match on 100 held-out examples. LoRA fine-tune did not beat the baseline — see [fine-tune eval](docs/fine-tune-eval.md).
+Base `qwen2.5:7b-instruct` via Ollama reached **100.00%** aggregate on the parity-pass holdout (hash split, prompt-aligned eval). LoRA improved to **44.67%** after prompt parity but still failed the value gate — see [fine-tune eval](docs/fine-tune-eval.md).
 
 ## Hugging Face artifacts
 
@@ -173,7 +173,7 @@ Fine-tune artifacts are value-gated. See [docs/fine-tune-eval.md](docs/fine-tune
 
 - Default release path: runtime stays on base `qwen2.5:7b-instruct` via Ollama.
 - Optional local adapter path: set `PICKAI_USE_LORA=1` and keep `outputs/lora` available.
-- Current eval state: LoRA underperformed base on 100-example holdout (17.67% vs 99.33% aggregate).
+- Current eval state: parity-pass holdout base 100.00% vs LoRA 44.67% aggregate (first misaligned run: 99.33% vs 17.67%).
 - Hugging Face artifacts (optional, not required for startup):
   - Dataset: https://huggingface.co/datasets/MuhibBeekun/pickai-synthetic-nl-parse-v1
   - Experimental LoRA: https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora
