@@ -31,6 +31,8 @@ from utils.results.plot import (
 )
 import streamlit as st
 from streamlit import caching
+from pickai.contracts import EquipmentMode, OptimizeConstraints, OptimizeRequest, OrderLine
+from pickai.domain.optimizer import optimize_wave
 
 # Set page configuration
 st.set_page_config(page_title ="Improve Warehouse Productivity using Order Batching",
@@ -47,6 +49,34 @@ st.set_page_config(page_title ="Improve Warehouse Productivity using Order Batch
 def load(filename, n):
     df_orderlines = pd.read_csv(IN + filename).head(n)
     return df_orderlines
+
+
+def run_domain_optimizer_preview(df_orderlines):
+	"""Run a small contract-based optimization preview from current dataframe."""
+	sample = df_orderlines.head(25).copy()
+	if sample.empty:
+		return None
+
+	order_lines = []
+	for idx, row in sample.iterrows():
+		order_lines.append(
+			OrderLine(
+				order_id=str(row.get("OrderNumber", idx)),
+				line_id=str(idx),
+				sku=str(row.get("SKU", "UNKNOWN")),
+				location_id=f"loc-{idx}",
+				quantity=int(row.get("PCS", 1)),
+				x=float(row.get("x")),
+				y=float(row.get("y")),
+			)
+		)
+
+	request = OptimizeRequest(
+		order_lines=order_lines,
+		constraints=OptimizeConstraints(equipment_mode=EquipmentMode.walker),
+		idempotency_key="streamlit-preview",
+	)
+	return optimize_wave(request)
 
 
 # Alley Coordinates on y-axis
@@ -97,6 +127,9 @@ if start_1:
 	df_orderlines = load('df_lines.csv', lines_number)
 	df_waves, df_results = simulate_batch(n1, n2, y_low, y_high, origin_loc, lines_number, df_orderlines)
 	plot_simulation1(df_results, lines_number)
+	preview = run_domain_optimizer_preview(df_orderlines)
+	if preview is not None:
+		st.caption("Domain optimizer preview distance: {:,.0f} m".format(preview.total_distance_m))
 
 # Simulation 2: Order Batch using Spatial Clustering 
 # SCOPE SIZE

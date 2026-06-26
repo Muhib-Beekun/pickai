@@ -19,13 +19,13 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 
 ### Phase B â€” Package structure & contracts (TODO 009â€“016)
 
-- [ ] **TODO 009** â€” Create `pickai/` package dirs per Section 2. Add `pickai/__init__.py` etc.
-- [ ] **TODO 010** â€” Implement all Pydantic contracts (Section 5) in `pickai/contracts/`. Add `tests/unit/test_contracts.py`.
-- [ ] **TODO 011** â€” Extract pure routing from `utils/routing/` into `pickai/domain/routing.py`. Upstream utils re-export for backward compat.
-- [ ] **TODO 012** â€” Extract batching/clustering into `pickai/domain/batching.py`, `pickai/domain/clustering.py`.
-- [ ] **TODO 013** â€” Add `pickai/domain/optimizer.py` â€” single entry `optimize_wave(request: OptimizeRequest) -> OptimizedWave`.
-- [ ] **TODO 014** â€” Unit tests for routing/batching with `In/df_lines.csv` subset. **Exit:** pytest green.
-- [ ] **TODO 015** â€” Refactor `app.py` to call `pickai.domain.optimizer` (thin UI). Verify Experiments 1 & 2 still work.
+- [x] **TODO 009** â€” Create `pickai/` package dirs per Section 2. Add `pickai/__init__.py` etc.
+- [x] **TODO 010** â€” Implement all Pydantic contracts (Section 5) in `pickai/contracts/`. Add `tests/unit/test_contracts.py`.
+- [x] **TODO 011** â€” Extract pure routing from `utils/routing/` into `pickai/domain/routing.py`. Upstream utils re-export for backward compat.
+- [x] **TODO 012** â€” Extract batching/clustering into `pickai/domain/batching.py`, `pickai/domain/clustering.py`.
+- [x] **TODO 013** â€” Add `pickai/domain/optimizer.py` â€” single entry `optimize_wave(request: OptimizeRequest) -> OptimizedWave`.
+- [x] **TODO 014** â€” Unit tests for routing/batching with `In/df_lines.csv` subset. **Exit:** pytest green.
+- [x] **TODO 015** â€” Refactor `app.py` to call `pickai.domain.optimizer` (thin UI). Verify Experiments 1 & 2 still work.
 - [ ] **TODO 016** â€” Commit: `refactor: domain layer and pydantic contracts`.
 
 ### Phase C â€” Mendeley data pipeline (TODO 017â€“024)
@@ -100,3 +100,11 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 
 
 - TODO 008: Initialized EXECUTION.md checklist and committed Phase A scaffold as d877924.
+
+- TODO 009: Created PickAI package structure (contracts/domain/adapters/inference/api/ui).
+- TODO 010: Implemented Pydantic contracts in pickai/contracts with unit tests.
+- TODO 011: Extracted routing into pickai/domain/routing.py with legacy utils re-export compatibility.
+- TODO 012: Added domain batching and clustering entry modules.
+- TODO 013: Added pickai/domain/optimizer.py with optimize_wave contract entrypoint.
+- TODO 014: Added and ran unit tests; pytest tests/unit passed.
+- TODO 015: Refactored app.py to call domain optimizer preview while preserving baseline experiments.
