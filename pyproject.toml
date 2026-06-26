@@ -1,0 +1,32 @@
+﻿[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pickai"
+version = "0.1.0"
+description = "WMS-integrated pick-path optimization platform"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "PickAI Contributors" }
+]
+license = { text = "MIT" }
+dependencies = [
+  "streamlit>=1.28",
+  "pandas>=2.1",
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "plotly>=5.18",
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "pydantic>=2.8",
+  "httpx>=0.27",
+  "python-multipart>=0.0.9",
+  "pytest>=8.2"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
