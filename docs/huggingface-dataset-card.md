@@ -209,7 +209,9 @@ flowchart TD
 
 Holdout: 100 rows via deterministic hash split (not tail rows). Prompt format shared with training via `pickai/inference/nl_parse_prompt.py`.
 
-**Parity pass (prompt-aligned, June 2026):** base [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) via Ollama **100.00%** aggregate; LoRA **44.67%** (up from 17.67% before prompt alignment). Value gate failed. See [fine-tune eval](https://github.com/Muhib-Beekun/pickai/blob/main/docs/fine-tune-eval.md) and the [model card](https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora).
+**Parity pass (prompt-aligned, June 2026):** base [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) via Ollama **100.00%** aggregate; LoRA **44.67%** (up from 17.67% before prompt alignment). **V2 pass (500 steps, rank 32):** base **99.33%**, LoRA **16.67%**. Value gate failed. See [fine-tune eval](https://github.com/Muhib-Beekun/pickai/blob/main/docs/fine-tune-eval.md) and the [model card](https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora).
+
+PickAI now ships a **Facility Console** (map-centric setup + operations) — see [facility-console.md](https://github.com/Muhib-Beekun/pickai/blob/main/docs/facility-console.md).
 
 Known gap: **`start_position`** / ladder fields remain the main failure mode in agentic refine (134/200 rows rejected).
 

@@ -123,6 +123,17 @@ Training script: [`scripts/train_lora_nl_parse.py`](https://github.com/Muhib-Bee
 | --- | ---: | ---: |
 | Aggregate field match | 99.33% | 17.67% |
 
+**V2 pass (500 steps, rank 32, June 2026)**
+
+| Metric | Base (Ollama) | LoRA v2 (local) |
+| --- | ---: | ---: |
+| Aggregate field match | 99.33% | 16.67% |
+| Equipment mode | 98.00% | 0.00% |
+| Ladder position | 100.00% | 0.00% |
+| Aisle constraint | 100.00% | 50.00% |
+
+More training capacity did not help; release runtime stays on base Qwen.
+
 **Value gate: failed.** PickAI does not enable this adapter by default. Parity fixes improved LoRA from 17.67% to 44.67% aggregate but base Qwen still wins.
 
 Full write-up: [docs/fine-tune-eval.md](https://github.com/Muhib-Beekun/pickai/blob/main/docs/fine-tune-eval.md)
