@@ -183,7 +183,7 @@ flowchart LR
 - **Slotting-adjacent heat:** ABC velocity overlay and move suggestions from pick history CSV
 - **Async optimize + webhook:** large waves with callback instead of poll-only
 
-Shipped in Facility Console v1: interactive map setup, multi-picker zone split, heat layers, pick+put tasks, profile export, BYOK inference config.
+Shipped in Facility Console: interactive map setup, multi-picker zone split, heat layers (pick density, walk burden, congestion, ABC, affinity), pick+put+replen tasks, profile export, BYOK inference, classical aisle policies, cart capacity splits, task interleaving, slotting suggestions, route playback, what-if simulation, async optimize, live aisle status.
 
 ## Verification commands
 

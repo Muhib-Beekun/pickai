@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pickai.contracts import OptimizeConstraints, OptimizeRequest, OrderLine
-from pickai.contracts.facility import FacilityProfile, ResourcePool
+from pickai.contracts.facility import FacilityProfile, PickingMethod, ResourcePool
 from pickai.domain.optimizer import optimize_wave
 
 
@@ -13,7 +13,7 @@ def _zone_for_x(x: float, zones: list) -> str | None:
 
 
 def split_lines_by_zone(profile: FacilityProfile, lines: list[OrderLine], resource_count: int) -> list[tuple[str, list[OrderLine]]]:
-    if not profile.zones or resource_count <= 1:
+    if profile.picking_method != PickingMethod.zone or not profile.zones or resource_count <= 1:
         return [("all", lines)]
 
     zone_buckets: dict[str, list[OrderLine]] = {z.zone_id: [] for z in profile.zones}
@@ -35,6 +35,20 @@ def split_lines_by_zone(profile: FacilityProfile, lines: list[OrderLine], resour
             combined.extend(zone_buckets[zid])
         merged.append((",".join(chunk_zones), combined))
     return merged[:resource_count]
+
+
+def _wave_params(profile: FacilityProfile) -> dict:
+    return {
+        "y_low": profile.layout.y_low,
+        "y_high": profile.layout.y_high,
+        "pick_policy": profile.pick_policy.value,
+        "labor_enabled": True,
+        "base_pick_s": profile.labor.base_pick_s,
+        "golden_zone_min_m": profile.labor.golden_zone_min_m,
+        "golden_zone_max_m": profile.labor.golden_zone_max_m,
+        "height_penalty_per_m": profile.labor.height_penalty_per_m,
+        "default_pick_height_m": 1.2,
+    }
 
 
 def detect_aisle_conflicts(assignments: list[dict]) -> list[str]:
@@ -72,6 +86,7 @@ def optimize_multi_resource(
         request = OptimizeRequest(
             order_lines=bucket,
             constraints=constraints,
+            wave_params=_wave_params(profile),
             idempotency_key=f"{idempotency_key or 'task'}-{resource_id}",
         )
         result = optimize_wave(request)

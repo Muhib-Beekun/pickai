@@ -11,10 +11,79 @@ class AisleDirection(str, Enum):
     decreasing = "decreasing"
 
 
+class AisleStatus(str, Enum):
+    open = "open"
+    blocked = "blocked"
+    congested = "congested"
+
+
 class AisleRule(BaseModel):
     aisle_id: str
     direction: AisleDirection = AisleDirection.two_way
     blocked: bool = False
+    status: AisleStatus = AisleStatus.open
+
+
+class DockNode(BaseModel):
+    dock_id: str
+    name: str
+    x: float
+    y: float
+    dock_type: str = "staging"
+
+
+class LaborConfig(BaseModel):
+    base_pick_s: float = 3.0
+    golden_zone_min_m: float = 0.8
+    golden_zone_max_m: float = 1.6
+    height_penalty_per_m: float = 2.0
+
+
+class VelocityTier(str, Enum):
+    A = "A"
+    B = "B"
+    C = "C"
+
+
+class PickHistoryRecord(BaseModel):
+    order_id: str
+    sku: str
+    location_id: str
+    quantity: int = Field(ge=1)
+    x: float
+    y: float
+
+
+class SlottingSuggestion(BaseModel):
+    sku: str
+    from_location_id: str
+    to_location_id: str
+    walk_burden_saved_m: float
+    reason: str
+
+
+class RoutePlaybackFrame(BaseModel):
+    step: int
+    segment_type: str
+    from_label: str
+    to_label: str
+    x: float
+    y: float
+    distance_m: float = 0.0
+    duration_s: float = 0.0
+
+
+class SimulationResult(BaseModel):
+    sample_size: int
+    baseline_distance_m: float
+    draft_distance_m: float
+    distance_saved_m: float
+    baseline_duration_s: float
+    draft_duration_s: float
+    duration_saved_s: float
+    roi_pct: float
+    baseline_conflicts: int = 0
+    draft_conflicts: int = 0
 
 
 class ZoneDef(BaseModel):
@@ -57,6 +126,8 @@ class PickPolicy(str, Enum):
     shortest_path = "shortest_path"
     s_shape = "s_shape"
     largest_gap = "largest_gap"
+    combined = "combined"
+    return_policy = "return_policy"
 
 
 class PutPolicy(str, Enum):
@@ -74,6 +145,8 @@ class HeatLayer(str, Enum):
     pick_density = "pick_density"
     walk_burden = "walk_burden"
     congestion = "congestion"
+    abc_velocity = "abc_velocity"
+    sku_affinity = "sku_affinity"
 
 
 class HeatConfig(BaseModel):
@@ -115,14 +188,17 @@ class FacilityProfile(BaseModel):
     locations: list[FacilityLocation] = Field(default_factory=list)
     aisles: list[AisleRule] = Field(default_factory=list)
     zones: list[ZoneDef] = Field(default_factory=list)
+    docks: list[DockNode] = Field(default_factory=list)
     resources: ResourcePool = Field(default_factory=ResourcePool)
     pick_policy: PickPolicy = PickPolicy.shortest_path
     put_policy: PutPolicy = PutPolicy.nearest_empty
     picking_method: PickingMethod = PickingMethod.wave
     heat_config: HeatConfig = Field(default_factory=HeatConfig)
     inference: InferenceProfile = Field(default_factory=InferenceProfile)
+    labor: LaborConfig = Field(default_factory=LaborConfig)
     cart_max_lines: int = Field(default=50, ge=1)
     cart_max_weight_kg: float = Field(default=200.0, ge=1)
+    cart_max_pieces: int = Field(default=200, ge=1)
     task_interleaving: str = "off"
 
 
@@ -174,8 +250,12 @@ class TaskOptimizeResult(BaseModel):
     run_id: str
     assignments: list[ResourceAssignment]
     heat_maps: list[HeatMap] = Field(default_factory=list)
+    slotting_suggestions: list[SlottingSuggestion] = Field(default_factory=list)
+    route_playback: list[RoutePlaybackFrame] = Field(default_factory=list)
     total_distance_m: float = 0.0
     total_duration_s: float = 0.0
+    labor_estimate_s: float = 0.0
     processing_time_ms: int = 0
     empty_travel_pct: float = 0.0
+    deadhead_travel_pct: float = 0.0
     conflict_warnings: list[str] = Field(default_factory=list)

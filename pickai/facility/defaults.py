@@ -7,9 +7,12 @@ from pathlib import Path
 from pickai.contracts.facility import (
     AisleDirection,
     AisleRule,
+    DockNode,
     FacilityLayout,
     FacilityLocation,
     FacilityProfile,
+    HeatConfig,
+    HeatLayer,
     ZoneDef,
 )
 
@@ -52,8 +55,14 @@ def build_default_profile(tenant_id: str = "default", facility_id: str = "main")
 
     zones = [
         ZoneDef(zone_id="Z1", name="West", x_min=0, x_max=11, y_min=5.5, y_max=50),
-        ZoneDef(zone_id="Z2", name="Center", x_min=12, x_max=23, y_min=5.5, y_max=50),
+        ZoneDef(zone_id="Z2", name="Center", x_min=12, x_max=23, y_min=5.5, y_max=50, pedestrian_only=False),
         ZoneDef(zone_id="Z3", name="East", x_min=24, x_max=35, y_min=5.5, y_max=50),
+    ]
+
+    docks = [
+        DockNode(dock_id="STAGING-1", name="Main staging", x=0.0, y=5.5, dock_type="staging"),
+        DockNode(dock_id="DOOR-1", name="Dock door 1", x=-2.0, y=5.5, dock_type="door"),
+        DockNode(dock_id="CART-1", name="Cart park", x=1.0, y=5.5, dock_type="cart_park"),
     ]
 
     return FacilityProfile(
@@ -65,4 +74,14 @@ def build_default_profile(tenant_id: str = "default", facility_id: str = "main")
         locations=locations,
         aisles=aisles,
         zones=zones,
+        docks=docks,
+        heat_config=HeatConfig(
+            layers=[
+                HeatLayer.pick_density,
+                HeatLayer.walk_burden,
+                HeatLayer.congestion,
+                HeatLayer.abc_velocity,
+                HeatLayer.sku_affinity,
+            ]
+        ),
     )

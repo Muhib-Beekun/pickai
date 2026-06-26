@@ -5,6 +5,7 @@ import time
 
 from pickai.contracts import OptimizeRequest, OptimizedWave, RouteSegment
 
+from .aisle_policies import build_route_by_policy
 from .equipment import PROFILES, forklift_direction_penalty, infer_aisle_id, load_aisle_rules
 from .routing import create_picking_route, distance_picking
 from .solver_ortools import solve_pick_path_tsp
@@ -31,7 +32,17 @@ def _naive_route_distance(origin: list[float], list_locs: list[list[float]], y_l
     return float(distance_total)
 
 
-def _build_route_with_solver(origin: list[float], list_locs: list[list[float]], y_low: float, y_high: float) -> tuple[float, list[list[float]]]:
+def _build_route_with_solver(
+    origin: list[float],
+    list_locs: list[list[float]],
+    y_low: float,
+    y_high: float,
+    pick_policy: str = "shortest_path",
+) -> tuple[float, list[list[float]]]:
+    policy = (pick_policy or "shortest_path").lower()
+    if policy not in ("shortest_path", "ortools", "tsp"):
+        return build_route_by_policy(policy, origin, list_locs, y_low, y_high)
+
     solver_mode = os.getenv("PICKAI_SOLVER", "ortools").strip().lower()
     if solver_mode == "heuristic":
         return create_picking_route(origin, list_locs, y_low, y_high)
@@ -53,15 +64,17 @@ def _build_route_with_solver(origin: list[float], list_locs: list[list[float]], 
 
 def optimize_wave(request: OptimizeRequest) -> OptimizedWave:
     start_time = time.perf_counter()
-    y_low = 5.5
-    y_high = 50.0
+    wave_params = request.wave_params or {}
+    y_low = float(wave_params.get("y_low", 5.5))
+    y_high = float(wave_params.get("y_high", 50.0))
+    pick_policy = str(wave_params.get("pick_policy", "shortest_path"))
     wave_id = request.idempotency_key or "wave-1"
 
     origin = _start_point(request, y_low)
     unique_points = sorted({(line.x, line.y) for line in request.order_lines})
     list_locs = [list(point) for point in unique_points]
 
-    route_distance, path = _build_route_with_solver(origin, list_locs, y_low, y_high)
+    route_distance, path = _build_route_with_solver(origin, list_locs, y_low, y_high, pick_policy)
     naive_distance = _naive_route_distance(origin, list_locs, y_low, y_high)
     profile = PROFILES[request.constraints.equipment_mode.value]
     one_way_rules = load_aisle_rules()
@@ -109,6 +122,23 @@ def optimize_wave(request: OptimizeRequest) -> OptimizedWave:
             None,
         )
         pick_duration_s = 1.0
+        if wave_params.get("labor_enabled"):
+            from pickai.domain.labor import pick_height_penalty_s
+            from pickai.contracts.facility import FacilityLocation, LocationAttributes
+
+            fake_loc = FacilityLocation(
+                location_id=matched_line.location_id if matched_line else "",
+                x=next_point[0],
+                y=next_point[1],
+                attributes=LocationAttributes(pick_height_m=float(wave_params.get("default_pick_height_m", 1.2))),
+            )
+            pick_duration_s += pick_height_penalty_s(
+                fake_loc,
+                float(wave_params.get("golden_zone_min_m", 0.8)),
+                float(wave_params.get("golden_zone_max_m", 1.6)),
+                float(wave_params.get("height_penalty_per_m", 2.0)),
+            )
+            pick_duration_s += float(wave_params.get("base_pick_s", 3.0)) - 1.0
         if matched_line and matched_line.level is not None and last_level is not None and matched_line.level != last_level:
             pick_duration_s += profile.vertical_pick_s
         if matched_line and matched_line.level is not None:

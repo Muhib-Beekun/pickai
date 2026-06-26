@@ -23,6 +23,7 @@ class OrderLine(BaseModel):
     y: float
     z: float | None = None
     level: str | None = None
+    weight_kg: float | None = None
 
 
 class EquipmentMode(str, Enum):

@@ -1937,22 +1937,26 @@
     {
       "aisle_id": "A1",
       "direction": "increasing",
-      "blocked": false
+      "blocked": false,
+      "status": "open"
     },
     {
       "aisle_id": "A2",
       "direction": "decreasing",
-      "blocked": false
+      "blocked": false,
+      "status": "open"
     },
     {
       "aisle_id": "A3",
       "direction": "increasing",
-      "blocked": false
+      "blocked": false,
+      "status": "open"
     },
     {
       "aisle_id": "A4",
       "direction": "decreasing",
-      "blocked": false
+      "blocked": false,
+      "status": "open"
     }
   ],
   "zones": [
@@ -1990,6 +1994,7 @@
       "attributes": {}
     }
   ],
+  "docks": [],
   "resources": {
     "pickers": 2,
     "putters": 1
@@ -2010,7 +2015,14 @@
     "api_key_env": null,
     "base_url": null
   },
+  "labor": {
+    "base_pick_s": 3.0,
+    "golden_zone_min_m": 0.8,
+    "golden_zone_max_m": 1.6,
+    "height_penalty_per_m": 2.0
+  },
   "cart_max_lines": 50,
   "cart_max_weight_kg": 200.0,
+  "cart_max_pieces": 200,
   "task_interleaving": "off"
 }

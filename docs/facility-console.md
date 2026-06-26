@@ -1,41 +1,59 @@
 # Facility Console
 
-Map-centric setup and operations for PickAI. Not a WMS — a WMS-adjacent optimization layer.
+Map-centric setup, operations, slotting, and simulation for PickAI.
 
 ## Modes
 
-### Setup
-- Edit `FacilityProfile`: locations, aisle rules (one-way, blocked), zones, resource pool
-- BYOK inference: Ollama (default), OpenAI, Anthropic, Azure, custom base URL
-- NL chat parses supervisor constraints via the same prompt as eval (`nl_parse_prompt.py`)
-- Publish increments `version` for audit and WMS integration
+| Mode | Features |
+|------|----------|
+| **Setup** | Locations inspector (hazmat, temp, weight, pick height), zones (pedestrian/forklift), docks, aisle rules + status, route policy, cart limits, labor standards, BYOK, pick history import |
+| **Operations** | Pick + put + replen tasks, live aisle block/congestion toggle, replan, multi-picker, heat layers, route playback slider, slotting hints, labor estimate |
+| **Slotting** | ABC velocity, SKU affinity heat, move suggestions with walk burden saved |
+| **Simulation** | Sample-week what-if, ROI %, baseline vs draft distance/duration |
+| **Scenario compare** | Quick picker/method comparison |
 
-### Operations
-- `POST /v1/tasks/optimize` with pick and put task lines
-- Multi-picker zone split with aisle conflict warnings
-- Heat layers: pick density, walk burden, congestion
-- Route preview on the facility map
+## Routing
 
-### Scenario compare
-- Compare published profile vs draft (e.g. more pickers) on the same sample wave
+| Policy | Engine |
+|--------|--------|
+| `shortest_path` | OR-Tools TSP (default) |
+| `s_shape` | Classical S-shape aisle traversal |
+| `largest_gap` | Largest-gap aisle heuristic |
+| `combined` | Best of S-shape and return |
+| `return_policy` | Return traversal per aisle |
 
-## Storage
+## Picking methods
 
-```
-data/facilities/{tenant_id}/{facility_id}.json
-```
+- **discrete** — one order per trip
+- **batch** — multi-order until cart limits
+- **wave** — all lines in one optimize pass
+- **zone** — zone split across pickers
 
-Default: `default/main.json` seeded from `samples/location_master.csv` and `data/fixtures/aisle_rules.json`.
+Cart splits on max lines, max weight (kg), and max pieces.
+
+## Task interleaving
+
+- `off` — separate pick / put / replen routes
+- `same_zone` — merge tasks within zone
+- `aggressive` — single interleaved route
 
 ## API
 
 | Endpoint | Purpose |
-| --- | --- |
-| `GET /v1/facility/profile` | Load profile |
-| `PUT /v1/facility/profile?publish=true` | Save or publish |
-| `GET /v1/facility/profile/export?format=geojson` | WMS integration export |
-| `POST /v1/tasks/optimize` | Pick + put multi-resource optimize |
-| `POST /v1/waves/optimize` | Legacy WMS wave alias |
+|----------|---------|
+| `GET/PUT /v1/facility/profile` | Profile CRUD |
+| `PATCH /v1/facility/aisles/{id}?status=` | Live aisle open/blocked/congested |
+| `POST /v1/facility/pick-history/import` | CSV pick history |
+| `GET /v1/facility/slotting/suggestions` | ABC + affinity move list |
+| `POST /v1/facility/simulate` | What-if ROI |
+| `POST /v1/tasks/optimize` | Pick + put + replen |
+| `POST /v1/tasks/optimize/async` | Background optimize + optional callback |
+| `GET /v1/tasks/{run_id}/playback` | Route playback frames |
+| `GET /v1/facility/profile/export?format=geojson` | WMS export |
+
+## Samples
+
+- `samples/pick_history_sample.csv` — slotting / ABC demo input
 
 ## Docker
 
@@ -43,6 +61,5 @@ Default: `default/main.json` seeded from `samples/location_master.csv` and `data
 docker compose up -d --build
 ```
 
-- API: `:8000`
-- Facility Console: `:8502`
-- Legacy lab: `:8501`
+- Facility Console: http://localhost:8502
+- API: http://localhost:8000/docs
