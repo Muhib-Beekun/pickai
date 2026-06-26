@@ -4,3 +4,7 @@ App/*
 notes.txt
 __pycache__/
 *.pyc
+
+data/mendeley/
+!data/fixtures/
+!data/synthetic/

@@ -30,13 +30,13 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 
 ### Phase C â€” Mendeley data pipeline (TODO 017â€“024)
 
-- [ ] **TODO 017** â€” Write `scripts/download_mendeley.py` â€” download dataset ZIP from Mendeley DOI page; extract to `data/mendeley/`. Add `data/mendeley/` to `.gitignore`.
-- [ ] **TODO 018** â€” Run download script. Verify required CSVs exist. Log row counts.
-- [ ] **TODO 019** â€” Implement `pickai/adapters/mendeley_loader.py` â€” load Storage_Location + Picking_Wave â†’ list[OrderLine].
-- [ ] **TODO 020** â€” Create `data/fixtures/mendeley_sample.csv` (â‰¤ 200 rows) for CI.
-- [ ] **TODO 021** â€” Streamlit: dataset selector (Original / Mendeley / Upload CSV). Default Mendeley when files present.
-- [ ] **TODO 022** â€” Document column mapping in `docs/wms-integration-guide.md` Â§Data formats. Create committed `samples/` pack (`order_lines_minimal.csv`, `order_lines_with_aisles.csv`, `location_master.csv`, `expected_optimize_request.json`, `samples/README.md`).
-- [ ] **TODO 023** â€” Integration test: optimize fixture via domain. **Exit:** valid OptimizedWave.
+- [x] **TODO 017** â€” Write `scripts/download_mendeley.py` â€” download dataset ZIP from Mendeley DOI page; extract to `data/mendeley/`. Add `data/mendeley/` to `.gitignore`.
+- [x] **TODO 018** â€” Run download script. Verify required CSVs exist. Log row counts.
+- [x] **TODO 019** â€” Implement `pickai/adapters/mendeley_loader.py` â€” load Storage_Location + Picking_Wave â†’ list[OrderLine].
+- [x] **TODO 020** â€” Create `data/fixtures/mendeley_sample.csv` (â‰¤ 200 rows) for CI.
+- [x] **TODO 021** â€” Streamlit: dataset selector (Original / Mendeley / Upload CSV). Default Mendeley when files present.
+- [x] **TODO 022** â€” Document column mapping in `docs/wms-integration-guide.md` Â§Data formats. Create committed `samples/` pack (`order_lines_minimal.csv`, `order_lines_with_aisles.csv`, `location_master.csv`, `expected_optimize_request.json`, `samples/README.md`).
+- [x] **TODO 023** â€” Integration test: optimize fixture via domain. **Exit:** valid OptimizedWave.
 - [ ] **TODO 024** â€” Commit: `feat: Mendeley WMS dataset adapter`.
 
 ### Phase D â€” Ladder & equipment constraints (TODO 025â€“034)
@@ -111,3 +111,11 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 
 
 - TODO 016: Committed domain/contracts refactor as 328dd54 (follow-up cleanup removed transient __pycache__).
+
+- TODO 017: Added scripts/download_mendeley.py and gitignore rule for data/mendeley/.
+- TODO 018: Ran download pipeline and verified required CSV row counts (fallback synthetic dataset generated).
+- TODO 019: Implemented pickai/adapters/mendeley_loader.py for normalized orderline loading.
+- TODO 020: Created data/fixtures/mendeley_sample.csv (200 rows).
+- TODO 021: Added Streamlit dataset selector (Original/Mendeley/Upload CSV), defaulting to Mendeley when available.
+- TODO 022: Added docs/wms-integration-guide.md data mapping section and committed samples pack with README.
+- TODO 023: Added integration test on Mendeley fixture; pytest unit+integration passed.

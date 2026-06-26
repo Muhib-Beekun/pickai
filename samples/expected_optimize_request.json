@@ -1,0 +1,27 @@
+﻿{
+  "order_lines": [
+    {
+      "order_id": "1001",
+      "line_id": "1",
+      "sku": "SKU-00001",
+      "location_id": "L0001",
+      "quantity": 1,
+      "x": 0,
+      "y": 7
+    },
+    {
+      "order_id": "1001",
+      "line_id": "2",
+      "sku": "SKU-00002",
+      "location_id": "L0002",
+      "quantity": 2,
+      "x": 1,
+      "y": 7
+    }
+  ],
+  "constraints": {
+    "ladder_must_stay_in_aisle": false,
+    "equipment_mode": "walker"
+  },
+  "idempotency_key": "sample-wave"
+}

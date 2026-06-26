@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+from pathlib import Path
 from utils.routing.distances import (
 	distance_picking,
 	next_location
@@ -33,6 +34,7 @@ import streamlit as st
 from streamlit import caching
 from pickai.contracts import EquipmentMode, OptimizeConstraints, OptimizeRequest, OrderLine
 from pickai.domain.optimizer import optimize_wave
+from pickai.adapters.mendeley_loader import load_mendeley_orderlines
 
 # Set page configuration
 st.set_page_config(page_title ="Improve Warehouse Productivity using Order Batching",
@@ -49,6 +51,19 @@ st.set_page_config(page_title ="Improve Warehouse Productivity using Order Batch
 def load(filename, n):
     df_orderlines = pd.read_csv(IN + filename).head(n)
     return df_orderlines
+
+
+def load_dataset(n, dataset_source, uploaded_file):
+	if dataset_source == 'Mendeley':
+		mendeley_dir = Path('data/mendeley')
+		if mendeley_dir.exists() and (mendeley_dir / 'Picking_Wave.csv').exists() and (mendeley_dir / 'Storage_Location.csv').exists():
+			return load_mendeley_orderlines(mendeley_dir).head(n)
+	if dataset_source == 'Upload CSV' and uploaded_file is not None:
+		df_uploaded = pd.read_csv(uploaded_file)
+		if 'Coord' not in df_uploaded.columns and {'x', 'y'}.issubset(set(df_uploaded.columns)):
+			df_uploaded['Coord'] = df_uploaded.apply(lambda r: f"[{float(r['x'])}, {float(r['y'])}]", axis=1)
+		return df_uploaded.head(n)
+	return load('df_lines.csv', n)
 
 
 def run_domain_optimizer_preview(df_orderlines):
@@ -87,6 +102,12 @@ origin_loc = [0, y_low]
 distance_threshold = 35			
 distance_list = [1] + [i for i in range(5, 100, 5)]		
 IN = 'static/in/'
+# Dataset source controls
+mendeley_available = Path('data/mendeley/Picking_Wave.csv').exists() and Path('data/mendeley/Storage_Location.csv').exists()
+dataset_default = 'Mendeley' if mendeley_available else 'Original'
+dataset_source = st.sidebar.selectbox('Dataset source', ['Original', 'Mendeley', 'Upload CSV'], index=['Original', 'Mendeley', 'Upload CSV'].index(dataset_default))
+uploaded_csv = st.sidebar.file_uploader('Upload order lines CSV', type=['csv']) if dataset_source == 'Upload CSV' else None
+
 # Store Results by WaveID
 list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult = [], [], [], [], [], [], []
 list_results = [list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult]	# Group in list
@@ -124,7 +145,7 @@ if st.checkbox('SIMULATION 1: START CALCULATION',key='show', value=False):
     start_1 = True
 # Calculation
 if start_1:
-	df_orderlines = load('df_lines.csv', lines_number)
+	df_orderlines = load_dataset(lines_number, dataset_source, uploaded_csv)
 	df_waves, df_results = simulate_batch(n1, n2, y_low, y_high, origin_loc, lines_number, df_orderlines)
 	plot_simulation1(df_results, lines_number)
 	preview = run_domain_optimizer_preview(df_orderlines)
@@ -151,7 +172,7 @@ if st.checkbox('SIMULATION 2: START CALCULATION',key='show_2', value=False):
     start_2 = True
 # Calculation
 if start_2:
-	df_orderlines = load('df_lines.csv', lines_2)
+	df_orderlines = load_dataset(lines_2, dataset_source, uploaded_csv)
 	df_reswave, df_results = simulation_cluster(y_low, y_high, df_orderlines, list_results, n1, n2, 
 			distance_threshold)
 	plot_simulation2(df_reswave, lines_2, distance_threshold)
