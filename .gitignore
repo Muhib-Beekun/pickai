@@ -9,5 +9,10 @@ data/mendeley/
 !data/fixtures/
 data/synthetic/*
 !data/synthetic/sample.jsonl
+!data/synthetic/README.md
+
+outputs/
+logs/
 
 .env
+

@@ -1,0 +1,12 @@
+venv/
+.git/
+__pycache__/
+*.pyc
+.env
+data/mendeley/
+data/synthetic/synthetic_nl_parse.jsonl
+data/synthetic/refined_nl_parse.jsonl
+outputs/
+logs/
+docs/tmp/
+App/

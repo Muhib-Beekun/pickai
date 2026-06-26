@@ -15,8 +15,15 @@ if str(PROJECT_ROOT) not in sys.path:
 
 SYNTHETIC_PATH = PROJECT_ROOT / "data" / "synthetic" / "synthetic_nl_parse.jsonl"
 EVAL_DOC = PROJECT_ROOT / "docs" / "fine-tune-eval.md"
+LOCAL_LORA_DIR = PROJECT_ROOT / "outputs" / "lora"
 DEFAULT_BASE_MODEL = os.getenv("PICKAI_BASE_MODEL", "qwen2.5:7b-instruct")
 DEFAULT_LORA_MODEL = os.getenv("PICKAI_LORA_MODEL", "pickai-qwen2.5-lora")
+
+os.environ.setdefault("CUDA_DEVICE_ORDER", "PCI_BUS_ID")
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
+
+
+_LOCAL_LORA_GENERATOR: tuple[object, object] | None = None
 
 
 def _extract_json(text: str) -> dict:
@@ -46,6 +53,47 @@ def _ollama_parse(instruction: str, wave_input: dict, model: str) -> dict:
         resp.raise_for_status()
         content = resp.json().get("response", "")
     parsed = _extract_json(content)
+    return parsed.get("constraints", {}) if isinstance(parsed, dict) else {}
+
+
+def _load_local_lora() -> tuple[object, object]:
+    global _LOCAL_LORA_GENERATOR
+    if _LOCAL_LORA_GENERATOR is not None:
+        return _LOCAL_LORA_GENERATOR
+
+    import torch
+    from peft import AutoPeftModelForCausalLM
+    from transformers import AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained(str(LOCAL_LORA_DIR), trust_remote_code=True)
+    model = AutoPeftModelForCausalLM.from_pretrained(
+        str(LOCAL_LORA_DIR),
+        torch_dtype=torch.float16,
+        trust_remote_code=True,
+        device_map="auto",
+    )
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    _LOCAL_LORA_GENERATOR = (tokenizer, model)
+    return _LOCAL_LORA_GENERATOR
+
+
+def _local_lora_parse(instruction: str, wave_input: dict) -> dict:
+    import torch
+
+    tokenizer, model = _load_local_lora()
+    prompt = _prompt(instruction, wave_input)
+    encoded = tokenizer(prompt, return_tensors="pt").to(model.device)
+    with torch.inference_mode():
+        output = model.generate(
+            **encoded,
+            max_new_tokens=160,
+            do_sample=False,
+            temperature=None,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+    completion = tokenizer.decode(output[0][encoded["input_ids"].shape[1] :], skip_special_tokens=True)
+    parsed = _extract_json(completion)
     return parsed.get("constraints", {}) if isinstance(parsed, dict) else {}
 
 
@@ -86,19 +134,22 @@ def _score(pred: dict, truth: dict) -> dict:
     }
 
 
-def _evaluate(rows: list[dict], model: str) -> dict:
+def _evaluate(rows: list[dict], model: str, parser) -> dict:
     totals = {"aggregate": 0.0, "equipment_mode": 0.0, "ladder_position": 0.0, "aisle_constraint": 0.0, "wave_params": 0.0}
     count = 0
 
-    for row in rows:
+    for idx, row in enumerate(rows):
         instruction = row["instruction"]
         wave_input = row["input"]
         truth = row["output"]["constraints"]
-        pred = _ollama_parse(instruction, wave_input, model)
+        pred = parser(instruction, wave_input)
         score = _score(pred, truth)
         for key in totals:
             totals[key] += score[key]
         count += 1
+
+        if (idx + 1) % 10 == 0:
+            print(f"{model}: processed {idx + 1}/{len(rows)}", flush=True)
 
     if count == 0:
         return {k: 0.0 for k in totals}
@@ -117,12 +168,15 @@ def main() -> None:
     rows = [json.loads(line) for line in SYNTHETIC_PATH.read_text(encoding="utf-8").splitlines() if line.strip()]
     holdout = rows[-args.limit :]
 
-    base_scores = _evaluate(holdout, DEFAULT_BASE_MODEL)
+    base_scores = _evaluate(holdout, DEFAULT_BASE_MODEL, lambda instruction, wave_input: _ollama_parse(instruction, wave_input, DEFAULT_BASE_MODEL))
 
     lora_scores = None
     lora_error = None
     try:
-        lora_scores = _evaluate(holdout, DEFAULT_LORA_MODEL)
+        if LOCAL_LORA_DIR.exists():
+            lora_scores = _evaluate(holdout, str(LOCAL_LORA_DIR), _local_lora_parse)
+        else:
+            lora_scores = _evaluate(holdout, DEFAULT_LORA_MODEL, lambda instruction, wave_input: _ollama_parse(instruction, wave_input, DEFAULT_LORA_MODEL))
     except Exception as exc:
         lora_error = f"LoRA eval unavailable: {type(exc).__name__}: {exc}"
 
@@ -136,7 +190,7 @@ def main() -> None:
         "",
         f"Held-out examples: {len(holdout)}",
         f"Base model: {DEFAULT_BASE_MODEL}",
-        f"LoRA model: {DEFAULT_LORA_MODEL}",
+        f"LoRA model: {str(LOCAL_LORA_DIR) if LOCAL_LORA_DIR.exists() else DEFAULT_LORA_MODEL}",
         "",
         "| Metric | Base | LoRA |",
         "|---|---:|---:|",
@@ -153,7 +207,7 @@ def main() -> None:
     if lines and section_title in "\n".join(lines):
         text = "\n".join(lines)
         pattern = re.compile(re.escape(section_title) + r".*?(?=\n## |\Z)", re.DOTALL)
-        updated = pattern.sub("\n".join(section), text)
+        updated = pattern.sub(lambda _: "\n".join(section), text)
         EVAL_DOC.write_text(updated.strip() + "\n", encoding="utf-8")
     else:
         header = ["# Fine-tune Evaluation", "", "Real model-call evaluation using Ollama parsing against held-out synthetic ground truth.", ""]
