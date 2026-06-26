@@ -7,4 +7,7 @@ __pycache__/
 
 data/mendeley/
 !data/fixtures/
-!data/synthetic/
+data/synthetic/*
+!data/synthetic/sample.jsonl
+
+.env

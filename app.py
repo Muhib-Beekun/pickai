@@ -4,6 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
 from ast import literal_eval
+import subprocess
 from utils.routing.distances import (
 	distance_picking,
 	next_location
@@ -37,6 +38,7 @@ from streamlit import caching
 from pickai.contracts import EquipmentMode, LadderState, OptimizeConstraints, OptimizeRequest, OrderLine
 from pickai.domain.optimizer import optimize_wave
 from pickai.adapters.mendeley_loader import load_mendeley_orderlines
+from pickai.inference.gateway import run_task
 
 # Set page configuration
 st.set_page_config(page_title ="Improve Warehouse Productivity using Order Batching",
@@ -170,6 +172,27 @@ current_constraints = OptimizeConstraints(
 st.sidebar.caption(
 	f"Current ladder position: aisle={st.session_state['ladder_state'].aisle}, level={st.session_state['ladder_state'].level}, x={st.session_state['ladder_state'].x}, y={st.session_state['ladder_state'].y}"
 )
+
+st.sidebar.subheader('Chat assistant')
+chat_prompt = st.sidebar.text_area('Describe optimization intent', value='Use walker and start at x=0, y=5.5')
+if st.sidebar.button('Apply chat constraints'):
+	chat_result = run_task('nl_parse_optimize', {'text': chat_prompt})
+	chat_constraints = chat_result['constraints']
+	st.session_state['ladder_state'] = LadderState(**chat_constraints['start_position'])
+	current_constraints = OptimizeConstraints(
+		ladder_must_stay_in_aisle=chat_constraints.get('ladder_must_stay_in_aisle', False),
+		equipment_mode=EquipmentMode(chat_constraints.get('equipment_mode', 'walker')),
+		start_position=st.session_state['ladder_state'],
+	)
+	st.sidebar.success('Constraints parsed and applied')
+
+if st.sidebar.button('Generate synthetic JSONL'):
+	cmd = ['python', 'scripts/generate_synthetic_jsonl.py']
+	completed = subprocess.run(cmd, capture_output=True, text=True)
+	if completed.returncode == 0:
+		st.sidebar.success('Synthetic JSONL generated')
+	else:
+		st.sidebar.error(completed.stderr)
 
 # Store Results by WaveID
 list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult = [], [], [], [], [], [], []
