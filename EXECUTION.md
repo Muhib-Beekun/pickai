@@ -37,7 +37,7 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - [x] **TODO 021** â€” Streamlit: dataset selector (Original / Mendeley / Upload CSV). Default Mendeley when files present.
 - [x] **TODO 022** â€” Document column mapping in `docs/wms-integration-guide.md` Â§Data formats. Create committed `samples/` pack (`order_lines_minimal.csv`, `order_lines_with_aisles.csv`, `location_master.csv`, `expected_optimize_request.json`, `samples/README.md`).
 - [x] **TODO 023** â€” Integration test: optimize fixture via domain. **Exit:** valid OptimizedWave.
-- [ ] **TODO 024** â€” Commit: `feat: Mendeley WMS dataset adapter`.
+- [x] **TODO 024** â€” Commit: `feat: Mendeley WMS dataset adapter`.
 
 ### Phase D â€” Ladder & equipment constraints (TODO 025â€“034)
 
@@ -119,3 +119,6 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - TODO 021: Added Streamlit dataset selector (Original/Mendeley/Upload CSV), defaulting to Mendeley when available.
 - TODO 022: Added docs/wms-integration-guide.md data mapping section and committed samples pack with README.
 - TODO 023: Added integration test on Mendeley fixture; pytest unit+integration passed.
+
+
+- TODO 024: Committed Mendeley adapter phase as 0146503.
