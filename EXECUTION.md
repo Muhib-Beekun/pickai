@@ -202,43 +202,43 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - [x] **TODO 115** â€” Write `docs/routing-model.md` (2D graph, 2.5D vertical, ladder state, forklift vs walker).
 - [x] **TODO 116** â€” Add `docs/tool-schema-compute_optimal_pick_path.json`.
 - [x] **TODO 117** â€” Tests: OR-Tools â‰¤ heuristic; ladder persistence; time-saved > 0 on fixture wave.
-- [ ] **TODO 118** â€” Commit: `feat: OR-Tools solver and 2.5D routing metrics`.
+- [x] **TODO 118** â€” Commit: `feat: OR-Tools solver and 2.5D routing metrics`.
 
 ### Phase J â€” Ground-truth data + dual-agent (TODO 119â€“126)
 
-- [ ] **TODO 119** â€” Rewrite `generate_synthetic_jsonl.py` to use optimizer ground truth.
-- [ ] **TODO 120** â€” Regenerate â‰¥3,000 rows; refresh `sample.jsonl`.
-- [ ] **TODO 121** â€” Implement `scripts/agentic_nl_refine.py` (writer + validator, 3 cycles).
-- [ ] **TODO 122** â€” Run agentic refine on 200 held-out examples; write `data/synthetic/refined_nl_parse.jsonl`.
-- [ ] **TODO 123** â€” Rewrite `eval_nl_parse.py` for real Ollama scoring (no hardcoded values).
-- [ ] **TODO 124** â€” Run baseline eval; record in `docs/fine-tune-eval.md` Â§ Before training.
-- [ ] **TODO 125** â€” Upload full synthetic JSONL to HF dataset repo with README.
-- [ ] **TODO 126** â€” Commit: `feat: ground-truth synthetic data and agentic refine pipeline`.
+- [x] **TODO 119** â€” Rewrite `generate_synthetic_jsonl.py` to use optimizer ground truth.
+- [x] **TODO 120** â€” Regenerate â‰¥3,000 rows; refresh `sample.jsonl`.
+- [x] **TODO 121** â€” Implement `scripts/agentic_nl_refine.py` (writer + validator, 3 cycles).
+- [x] **TODO 122** â€” Run agentic refine on 200 held-out examples; write `data/synthetic/refined_nl_parse.jsonl`.
+- [x] **TODO 123** â€” Rewrite `eval_nl_parse.py` for real Ollama scoring (no hardcoded values).
+- [x] **TODO 124** â€” Run baseline eval; record in `docs/fine-tune-eval.md` Â§ Before training.
+- [x] **TODO 125**
+- [x] **TODO 126**
 
 ### Phase K â€” LoRA train + HF model (TODO 127â€“134)
 
-- [ ] **TODO 127** â€” Implement `scripts/train_lora_nl_parse.py` (PEFT/Unsloth, 3090, bounded steps).
-- [ ] **TODO 128** â€” Run training; save `outputs/lora/`; capture loss log.
-- [ ] **TODO 129** â€” Run post-train eval; update `docs/fine-tune-eval.md` Â§ After training.
-- [ ] **TODO 130** â€” Upload LoRA to `MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora` with model card.
-- [ ] **TODO 131** â€” Upgrade `gateway.py`: dual-agent retry + optional LoRA load.
-- [ ] **TODO 132** â€” Streamlit chat uses upgraded gateway; manual smoke 3 NL commands logged in EXECUTION.md.
-- [ ] **TODO 133** â€” Docker Compose: document optional `HF_LORA_REPO` pull in README (not required for startup).
-- [ ] **TODO 134** â€” Commit: `feat: LoRA training, HF upload, and gateway upgrade`.
+- [x] **TODO 127** â€” Implement `scripts/train_lora_nl_parse.py` (PEFT/Unsloth, 3090, bounded steps).
+- [x] **TODO 128** â€” Run training; save `outputs/lora/`; capture loss log.
+- [x] **TODO 129** â€” Run post-train eval; update `docs/fine-tune-eval.md` Â§ After training.
+- [x] **TODO 130**
+- [x] **TODO 131**
+- [x] **TODO 132**
+- [x] **TODO 133**
+- [x] **TODO 134**
 
 ### Phase L â€” Docs, CI, regression (TODO 135â€“145)
 
-- [ ] **TODO 135** â€” Regenerate `docs/openapi.json`; verify Swagger at `/docs`.
-- [ ] **TODO 136** â€” Update `docs/wms-integration-guide.md` with `ladder_state_after`, timing fields, tool schema link.
-- [ ] **TODO 137** â€” Final README (niche, links, solver modes, HF artifacts).
-- [ ] **TODO 138** â€” Update `docs/tmp/linkedin-article-draft.md` (no AI-build mention, live links).
-- [ ] **TODO 139** â€” Run CI locally: `pytest tests -q`, `verify_optimize_trace.py`, `preflight.ps1`.
-- [ ] **TODO 140** â€” Docker regression: `docker compose up -d --build`; health + Streamlit smoke.
-- [ ] **TODO 141** â€” GitHub Actions green on push (fix workflow if needed).
-- [ ] **TODO 142** â€” Mark all Phase 2 TODOs [x] in EXECUTION.md with completion log.
-- [ ] **TODO 143** â€” Print deliverables table (GitHub URL, HF URLs, eval scores, solver mode).
-- [ ] **TODO 144** â€” Commit: `docs: phase 2 release polish`.
-- [ ] **TODO 145** â€” Final push to `origin main`.
+- [x] **TODO 135**
+- [x] **TODO 136**
+- [x] **TODO 137**
+- [x] **TODO 138**
+- [x] **TODO 139**
+- [x] **TODO 140**
+- [ ] **TODO 141**
+- [x] **TODO 142**
+- [x] **TODO 143**
+- [x] **TODO 144**
+- [ ] **TODO 145**
 
 ---
 
@@ -260,3 +260,39 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - TODO 116: Added docs/tool-schema-compute_optimal_pick_path.json.
 - TODO 117: Extended unit/integration tests and validated with `pytest -q` and `scripts/verify_optimize_trace.py`.
 - TODO 108: Committed hygiene/publish prep as 7e42f34.
+- TODO 118: Committed OR-Tools and 2.5D routing integration as c22bbeb.
+- TODO 119: Rewrote scripts/generate_synthetic_jsonl.py to derive ground truth from OptimizeRequest -> optimize_wave outputs.
+- TODO 120: Regenerated synthetic_nl_parse.jsonl with 3,000 rows and refreshed 50-row sample using heuristic solver mode for tractable batch generation.
+- TODO 121: Added scripts/agentic_nl_refine.py with writer/validator 3-cycle refinement and JSONL logging.
+- TODO 122: Ran agentic refine on 200 held-out rows; produced data/synthetic/refined_nl_parse.jsonl with 66 retained examples.
+- TODO 123: Replaced eval_nl_parse hardcoded scoring with live Ollama parsing and field-level metric computation.
+- TODO 124: Ran before-training eval on 100 held-out rows; base aggregate 98.67%, equipment 96.00%, ladder position 100.00%, aisle constraint 100.00%.
+- TODO 125 blocker (resolved): Uploaded dataset to Hugging Face as MuhibBeekun.
+- TODO 127: Implemented scripts/train_lora_nl_parse.py with PEFT-based bounded training and explicit 3090 enforcement.
+- TODO 128: Replaced CPU-only Torch with CUDA build, corrected CUDA device ordering, and trained 100 steps on RTX 3090; outputs saved under outputs/lora and outputs/lora_train_log.json.
+- TODO 129: Ran after-training eval on 100 held-out rows using the local LoRA adapter; aggregate 17.67%, equipment 0.00%, ladder position 0.00%, aisle constraint 53.00%.
+- TODO 130 (resolved): Uploaded experimental LoRA with honest regression model card.
+- TODO 131: Upgraded gateway runtime to support dual-agent retries with optional local LoRA loading while keeping base Qwen default.
+- TODO 125: Uploaded synthetic_nl_parse.jsonl, sample.jsonl, and README to https://huggingface.co/datasets/MuhibBeekun/pickai-synthetic-nl-parse-v1
+- TODO 130: Uploaded experimental LoRA adapter and honest model card to https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora
+- TODO 132: Gateway NL smoke — case1 forklift/A3/ladder_stay=True; case2 walker/B1; case3 walker/wave batch (scripts/smoke_gateway_nl.py)
+- TODO 133: README documents optional PICKAI_USE_LORA=1 and HF artifact URLs; Docker startup unchanged.
+- TODO 135: Regenerated docs/openapi.json from FastAPI app schema.
+- TODO 136-137: Updated README and docs/wms-integration-guide.md for ladder_state_after, timing fields, solver modes, HF links.
+- TODO 138: Updated docs/tmp/linkedin-article-draft.md with 100-example eval metrics and live HF/GitHub links.
+- TODO 139: pytest 12/12, verify_optimize_trace ok, preflight.ps1 ok.
+- TODO 140: docker compose up -d --build ok; GET /v1/health ok; Streamlit :8501 HTTP 200.
+- TODO 142-143: Phase 2 deliverables recorded below.
+
+## Phase 2 deliverables
+
+| Deliverable | Status |
+|---|---|
+| GitHub repo | https://github.com/Muhib-Beekun/pickai |
+| HF synthetic dataset | https://huggingface.co/datasets/MuhibBeekun/pickai-synthetic-nl-parse-v1 |
+| HF LoRA (experimental) | https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora |
+| Default solver | OR-Tools (`PICKAI_SOLVER=ortools`) |
+| Base NL parse (100 ex) | 98.67% aggregate |
+| LoRA after-training (100 ex) | 17.67% aggregate (value gate failed) |
+| Docker smoke | API + Streamlit up |
+| CI on push | pending TODO 141 after push |

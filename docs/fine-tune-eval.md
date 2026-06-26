@@ -1,18 +1,30 @@
 # Fine-tune Evaluation
 
-Training status: fallback
-Training note: Skipped training: ModuleNotFoundError
+Real model-call evaluation using Ollama parsing against held-out synthetic ground truth.
 
-## Held-out evaluation (100 examples)
+## Before training
 
-| Metric | Base Qwen | LoRA |
-|---|---:|---:|
-| Aggregate field match | 86.0% | 84.0% |
-| Equipment mode | 91.0% | 90.0% |
-| Ladder position | 84.0% | 82.0% |
-| Aisle constraint | 83.0% | 81.0% |
-| Wave params | 86.0% | 84.0% |
+Held-out examples: 100  
+Base model: qwen2.5:7b-instruct via Ollama
+
+- Aggregate field match: 98.67%
+- Equipment mode: 96.00%
+- Ladder position: 100.00%
+- Aisle constraint: 100.00%
+
+## After training
+
+Held-out examples: 100  
+Base model: qwen2.5:7b-instruct via Ollama  
+LoRA adapter: `outputs/lora` (PEFT, trained on RTX 3090)
+
+- Aggregate field match — base 99.33%, LoRA 17.67%
+- Equipment mode — base 98.00%, LoRA 0.00%
+- Ladder position — base 100.00%, LoRA 0.00%
+- Aisle constraint — base 100.00%, LoRA 53.00%
 
 Value gate passed: no
 
-Conclusion: Fine-tune did not produce meaningful gain in this run; runtime uses base Qwen parser.
+Conclusion: the trained LoRA adapter regressed sharply versus the base Qwen runtime on the held-out set. Release runtime should remain on the base Ollama model unless a later adapter exceeds the baseline.
+
+Optional local adapter path: set `PICKAI_USE_LORA=1` and keep `outputs/lora` available. Default Docker and Streamlit flows do not require it.

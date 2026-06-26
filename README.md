@@ -4,12 +4,15 @@ PickAI is a warehouse picking-route optimization platform that extends the origi
 
 - REST API for WMS integration
 - Equipment-aware and ladder-aware routing
+- OR-Tools default solver with heuristic fallback
 - Streamlit operator console with route visualization
 - Synthetic NL dataset generation and optional local LLM parsing
 
 ## 30-second overview
 
 You send order lines and routing constraints. PickAI returns an ordered travel sequence with explicit pick and ladder-relocate steps, plus total distance and duration.
+
+Responses also include `ladder_state_after`, `processing_time_ms`, and `estimated_picker_time_saved_s` for state persistence and KPI reporting.
 
 ## Quickstart (Docker-first)
 
@@ -22,6 +25,7 @@ Copy-Item .env.example .env
 2. (Recommended) Run Ollama on host and pull model:
 
 ```powershell
+$env:CUDA_DEVICE_ORDER='PCI_BUS_ID'
 $env:CUDA_VISIBLE_DEVICES='0'
 ollama pull qwen2.5:7b-instruct
 ```
@@ -64,6 +68,8 @@ Webhook stub:
 - `POST /v1/webhooks/wms`
 
 Full guide: `docs/wms-integration-guide.md`
+
+Agent-call schema: `docs/tool-schema-compute_optimal_pick_path.json`
 
 ## Samples
 
@@ -113,8 +119,12 @@ streamlit run app.py
 
 Fine-tune artifacts are value-gated. See `docs/fine-tune-eval.md`.
 
-- If value gate passes: set `HF_LORA_REPO` and upload LoRA.
-- If value gate fails: runtime stays on base model (valid release path).
+- Default release path: runtime stays on base `qwen2.5:7b-instruct` via Ollama.
+- Optional local adapter path: set `PICKAI_USE_LORA=1` and keep `outputs/lora` available.
+- Current eval state: the local LoRA adapter trained on the RTX 3090 but underperformed the base model on the 100-example holdout (aggregate 17.67% vs 99.33%).
+- Hugging Face artifacts (optional, not required for startup):
+  - Dataset: https://huggingface.co/datasets/MuhibBeekun/pickai-synthetic-nl-parse-v1
+  - Experimental LoRA: https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora
 
 ## License and attribution
 

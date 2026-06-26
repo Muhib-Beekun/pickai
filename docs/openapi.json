@@ -557,6 +557,27 @@
             "minimum": 0.0,
             "title": "Total Duration S"
           },
+          "processing_time_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Processing Time Ms",
+            "default": 0
+          },
+          "estimated_picker_time_saved_s": {
+            "type": "number",
+            "title": "Estimated Picker Time Saved S",
+            "default": 0
+          },
+          "ladder_state_after": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LadderState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "picks": {
             "items": {
               "$ref": "#/components/schemas/OrderLine"
@@ -604,6 +625,28 @@
           "y": {
             "type": "number",
             "title": "Y"
+          },
+          "z": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Z"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
           }
         },
         "type": "object",
@@ -628,6 +671,28 @@
             "type": "string",
             "title": "Version",
             "default": "v1"
+          },
+          "processing_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Time Ms"
+          },
+          "estimated_picker_time_saved_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimated Picker Time Saved S"
           }
         },
         "type": "object",

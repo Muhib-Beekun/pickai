@@ -24,6 +24,12 @@ This guide is for WMS admins and integration developers who need optimized pick 
 4. Poll `/v1/runs/{run_id}` until status is `succeeded`.
 5. Apply returned location sequence to your WMS pick-task ordering.
 
+Persist these response fields if downstream workflows depend on operator state or reporting:
+
+- `ladder_state_after`
+- `processing_time_ms`
+- `estimated_picker_time_saved_s`
+
 ### PowerShell Example
 
 ```powershell
@@ -84,6 +90,17 @@ Set these in `constraints`:
 - `ladder_must_stay_in_aisle`: true/false
 - `start_position`: current picker or ladder position
 
+Related response fields:
+
+- `ladder_state_after`: last ladder position after the optimized route completes
+- `processing_time_ms`: optimizer runtime for the request
+- `estimated_picker_time_saved_s`: estimated time saved versus the naive baseline route
+
+Reference schemas:
+
+- `docs/openapi.json`
+- `docs/tool-schema-compute_optimal_pick_path.json`
+
 ## Errors and Retries
 
 - Include `idempotency_key` to prevent duplicate run creation on retries.
@@ -102,3 +119,4 @@ Input: `data/fixtures/mendeley_sample.csv`
 1. Convert rows to `OptimizeRequest` order lines.
 2. Submit `/v1/waves/optimize`.
 3. Read `sequence` in result as ordered travel legs and pick stops.
+4. Persist `ladder_state_after` if the next wave should resume from the prior ladder location.
