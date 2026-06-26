@@ -15,7 +15,7 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - [x] **TODO 005** â€” Create venv: `python -m venv venv`; activate; upgrade pip.
 - [x] **TODO 006** â€” Modernize deps: create `pyproject.toml` + updated `requirements.txt` (streamlit â‰¥1.28, pandas, scipy, plotly, fastapi, uvicorn, pydantic â‰¥2, httpx, pytest, python-multipart). Install. **Do not** pin 2021-era versions from upstream unless required for compatibility.
 - [x] **TODO 007** â€” Baseline smoke: `streamlit run app.py` with `In/df_lines.csv`. Screenshot or log that Experiment 1 runs. **Exit:** no import errors.
-- [ ] **TODO 008** â€” Init `EXECUTION.md` with this checklist + empty Completion log. Commit: `chore: scaffold PickAI from picking-route baseline`.
+- [x] **TODO 008** â€” Init `EXECUTION.md` with this checklist + empty Completion log. Commit: `chore: scaffold PickAI from picking-route baseline`.
 
 ### Phase B â€” Package structure & contracts (TODO 009â€“016)
 
@@ -97,3 +97,6 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - TODO 005: Created venv and upgraded pip.
 - TODO 006: Added pyproject.toml and modern requirements.txt; dependencies installed successfully.
 - TODO 007: Streamlit baseline smoke succeeded (http://localhost:8503).
+
+
+- TODO 008: Initialized EXECUTION.md checklist and committed Phase A scaffold as d877924.
