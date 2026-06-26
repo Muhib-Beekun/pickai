@@ -6,6 +6,8 @@ from .types import OptimizeConstraints, OptimizedWave, OrderLine
 class ResponseMeta(BaseModel):
     request_id: str
     version: str = "v1"
+    processing_time_ms: int | None = None
+    estimated_picker_time_saved_s: float | None = None
 
 
 class OptimizeRequest(BaseModel):

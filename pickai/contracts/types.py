@@ -21,6 +21,8 @@ class OrderLine(BaseModel):
     quantity: int = Field(ge=1)
     x: float
     y: float
+    z: float | None = None
+    level: str | None = None
 
 
 class EquipmentMode(str, Enum):
@@ -57,4 +59,7 @@ class OptimizedWave(BaseModel):
     sequence: list[RouteSegment]
     total_distance_m: float = Field(ge=0)
     total_duration_s: float = Field(ge=0)
+    processing_time_ms: int = Field(ge=0, default=0)
+    estimated_picker_time_saved_s: float = Field(default=0)
+    ladder_state_after: LadderState | None = None
     picks: list[OrderLine] = Field(default_factory=list)

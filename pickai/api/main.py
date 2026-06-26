@@ -59,7 +59,12 @@ def optimize(request: OptimizeRequest, x_api_key: str | None = Header(default=No
     run = RUN_STORE[run_id]
     return OptimizeResponse(
         data=OptimizeResponseData(run_id=run_id, status=run.status, result=run.result),
-        meta=ResponseMeta(request_id=f"req_{uuid.uuid4().hex[:12]}", version="v1"),
+        meta=ResponseMeta(
+            request_id=f"req_{uuid.uuid4().hex[:12]}",
+            version="v1",
+            processing_time_ms=run.result.processing_time_ms if run.result else None,
+            estimated_picker_time_saved_s=run.result.estimated_picker_time_saved_s if run.result else None,
+        ),
     )
 
 

@@ -1,0 +1,15 @@
+{
+  "name": "compute_optimal_pick_path",
+  "description": "Compute optimal pick sequence for known order lines and constraints",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "order_lines": { "type": "array" },
+      "constraints": { "type": "object" },
+      "equipment_mode": { "enum": ["walker", "forklift"] },
+      "start_position": { "type": "object" },
+      "ladder_must_stay_in_aisle": { "type": "boolean" }
+    },
+    "required": ["order_lines", "constraints"]
+  }
+}

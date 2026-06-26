@@ -42,7 +42,10 @@ def test_optimize_and_poll_flow():
     optimize = client.post("/v1/waves/optimize", json=payload, headers=headers)
     assert optimize.status_code == 200
     run_id = optimize.json()["data"]["run_id"]
+    assert optimize.json()["meta"]["processing_time_ms"] is not None
+    assert optimize.json()["meta"]["estimated_picker_time_saved_s"] is not None
 
     run = client.get(f"/v1/runs/{run_id}", headers=headers)
     assert run.status_code == 200
     assert run.json()["data"]["status"] == "succeeded"
+    assert run.json()["data"]["result"]["ladder_state_after"] is not None

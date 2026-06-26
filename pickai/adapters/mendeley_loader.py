@@ -43,6 +43,7 @@ def load_mendeley_orderlines(mendeley_dir: str | Path) -> pd.DataFrame:
             "y": merged[store_y].astype(float),
             "aisle": merged[store_aisle].astype(str),
             "level": merged[store_level].astype(str),
+            "z": merged.get("z", merged.get("Z", None)),
             "Coord": merged.apply(lambda r: f"[{r['x']}, {r['y']}]", axis=1),
             "LineID": merged[wave_line].astype(str),
             "LocationID": merged[wave_loc].astype(str),
@@ -64,6 +65,8 @@ def load_mendeley_contracts(mendeley_dir: str | Path) -> list[OrderLine]:
                 quantity=int(row["PCS"]),
                 x=float(row["x"]),
                 y=float(row["y"]),
+                z=float(row["z"]) if row.get("z") is not None and str(row.get("z")) != "nan" else None,
+                level=str(row["level"]) if row.get("level") is not None else None,
             )
         )
     return lines

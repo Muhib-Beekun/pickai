@@ -189,7 +189,7 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - [x] **TODO 105** â€” Add `docs/data-lineage.md` (Mendeley real vs fallback, synthetic generation method).
 - [x] **TODO 106** â€” Verify no DeepSeek references in repo; grep clean.
 - [x] **TODO 107** â€” Verify all GPU scripts set `CUDA_VISIBLE_DEVICES=0`; document in README.
-- [ ] **TODO 108** â€” Commit: `chore: phase 2 hygiene and publish prep`.
+- [x] **TODO 108** â€” Commit: `chore: phase 2 hygiene and publish prep`.
 
 ### Phase I â€” OR-Tools + 2.5D routing (TODO 109â€“118)
 
@@ -259,3 +259,4 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - TODO 115: Added docs/routing-model.md covering 2D routing, 2.5D costs, and ladder/equipment behaviors.
 - TODO 116: Added docs/tool-schema-compute_optimal_pick_path.json.
 - TODO 117: Extended unit/integration tests and validated with `pytest -q` and `scripts/verify_optimize_trace.py`.
+- TODO 108: Committed hygiene/publish prep as 7e42f34.

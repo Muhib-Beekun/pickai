@@ -11,6 +11,7 @@ class EquipmentProfile:
     turn_penalty_s: float
     relocate_penalty_distance_m: float
     relocate_penalty_s: float
+    vertical_pick_s: float
 
 
 PROFILES: dict[str, EquipmentProfile] = {
@@ -19,12 +20,14 @@ PROFILES: dict[str, EquipmentProfile] = {
         turn_penalty_s=1.0,
         relocate_penalty_distance_m=6.0,
         relocate_penalty_s=8.0,
+        vertical_pick_s=6.0,
     ),
     "forklift": EquipmentProfile(
         speed_mps=2.5,
         turn_penalty_s=2.5,
         relocate_penalty_distance_m=10.0,
         relocate_penalty_s=14.0,
+        vertical_pick_s=3.5,
     ),
 }
 

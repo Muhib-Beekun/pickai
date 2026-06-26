@@ -43,3 +43,11 @@ Core fields:
 ## Full OpenAPI
 
 The generated OpenAPI schema is in `docs/openapi.json`.
+
+## Tool Calling
+
+For hybrid LLM + solver integrations, use the published tool schema:
+
+- `docs/tool-schema-compute_optimal_pick_path.json`
+
+The LLM should only produce validated parameters and then call `compute_optimal_pick_path`; the deterministic solver computes all route distances and order.
