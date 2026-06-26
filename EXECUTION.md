@@ -171,3 +171,9 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 | Docker run path | Complete (host-Ollama fallback default) |
 | CI workflow | Complete |
 | HF LoRA publish | Skipped by value gate (documented) |
+
+- TODO 058 fallback detail: Bound target owner MuhibBeekun is not accessible from current authenticated account (Muhib-Beekun); org/repo create returned HTTP 404. Local repo is complete with full commit history.
+- Push commands once target owner is available:
+  1) git remote add github https://github.com/MuhibBeekun/pickai.git
+  2) git push github main
+
