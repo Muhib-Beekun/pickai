@@ -1,5 +1,7 @@
 # WMS Integration Guide
 
+PickAI is a **pick-path optimization service** your WMS calls over REST. It does not replace inventory, order management, or picker mobile UI. You send released wave lines; PickAI returns an optimized travel sequence and metadata your WMS can apply to pick-task ordering.
+
 ## Who This Is For
 
 This guide is for WMS admins and integration developers who need optimized pick sequences without writing Python code.
