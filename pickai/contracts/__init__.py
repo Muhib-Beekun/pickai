@@ -1,4 +1,4 @@
-from .api import OptimizeRequest, OptimizeResponse, ResponseMeta, RunStatus
+from .api import OptimizeRequest, OptimizeResponse, OptimizeResponseData, ResponseMeta, RunStatus
 from .types import (
     EquipmentMode,
     LadderState,
@@ -20,6 +20,7 @@ __all__ = [
     "OptimizedWave",
     "OptimizeRequest",
     "OptimizeResponse",
+    "OptimizeResponseData",
     "RunStatus",
     "ResponseMeta",
     "WmsOrderExport",

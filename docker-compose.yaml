@@ -1,0 +1,24 @@
+services:
+  api:
+    build: .
+    command: uvicorn pickai.api.main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - .env
+    environment:
+      - PICKAI_API_KEY=${PICKAI_API_KEY:-dev}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    ports:
+      - "8000:8000"
+
+  streamlit:
+    build: .
+    command: python -m streamlit run app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true
+    env_file:
+      - .env
+    environment:
+      - PICKAI_API_KEY=${PICKAI_API_KEY:-dev}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api

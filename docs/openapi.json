@@ -1,0 +1,742 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PickAI API",
+    "version": "v1"
+  },
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health V1 Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/waves/optimize": {
+      "post": {
+        "summary": "Optimize",
+        "operationId": "optimize_v1_waves_optimize_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OptimizeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptimizeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}": {
+      "get": {
+        "summary": "Get Run",
+        "operationId": "get_run_v1_runs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Run V1 Runs  Run Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/imports/csv": {
+      "post": {
+        "summary": "Import Csv",
+        "operationId": "import_csv_v1_imports_csv_post",
+        "parameters": [
+          {
+            "name": "order_col",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "OrderNumber",
+              "title": "Order Col"
+            }
+          },
+          {
+            "name": "sku_col",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "SKU",
+              "title": "Sku Col"
+            }
+          },
+          {
+            "name": "qty_col",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "PCS",
+              "title": "Qty Col"
+            }
+          },
+          {
+            "name": "x_col",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "x",
+              "title": "X Col"
+            }
+          },
+          {
+            "name": "y_col",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "y",
+              "title": "Y Col"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_import_csv_v1_imports_csv_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Import Csv V1 Imports Csv Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/webhooks/wms": {
+      "post": {
+        "summary": "Wms Webhook",
+        "operationId": "wms_webhook_v1_webhooks_wms_post",
+        "parameters": [
+          {
+            "name": "x-signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WmsWebhookPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Wms Webhook V1 Webhooks Wms Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_import_csv_v1_imports_csv_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_import_csv_v1_imports_csv_post"
+      },
+      "EquipmentMode": {
+        "type": "string",
+        "enum": [
+          "walker",
+          "forklift"
+        ],
+        "title": "EquipmentMode"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LadderState": {
+        "properties": {
+          "aisle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aisle"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "x": {
+            "type": "number",
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "title": "Y"
+          }
+        },
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "title": "LadderState"
+      },
+      "OptimizeConstraints": {
+        "properties": {
+          "ladder_must_stay_in_aisle": {
+            "type": "boolean",
+            "title": "Ladder Must Stay In Aisle",
+            "default": false
+          },
+          "equipment_mode": {
+            "$ref": "#/components/schemas/EquipmentMode",
+            "default": "walker"
+          },
+          "start_position": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LadderState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "depot": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LadderState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "OptimizeConstraints"
+      },
+      "OptimizeRequest": {
+        "properties": {
+          "order_lines": {
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            },
+            "type": "array",
+            "title": "Order Lines"
+          },
+          "constraints": {
+            "$ref": "#/components/schemas/OptimizeConstraints"
+          },
+          "wave_params": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wave Params"
+          },
+          "idempotency_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "order_lines"
+        ],
+        "title": "OptimizeRequest"
+      },
+      "OptimizeResponse": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OptimizeResponseData"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ResponseMeta"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "OptimizeResponse"
+      },
+      "OptimizeResponseData": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OptimizedWave"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "status"
+        ],
+        "title": "OptimizeResponseData"
+      },
+      "OptimizedWave": {
+        "properties": {
+          "wave_id": {
+            "type": "string",
+            "title": "Wave Id"
+          },
+          "sequence": {
+            "items": {
+              "$ref": "#/components/schemas/RouteSegment"
+            },
+            "type": "array",
+            "title": "Sequence"
+          },
+          "total_distance_m": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Total Distance M"
+          },
+          "total_duration_s": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Total Duration S"
+          },
+          "picks": {
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            },
+            "type": "array",
+            "title": "Picks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "wave_id",
+          "sequence",
+          "total_distance_m",
+          "total_duration_s"
+        ],
+        "title": "OptimizedWave"
+      },
+      "OrderLine": {
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "title": "Order Id"
+          },
+          "line_id": {
+            "type": "string",
+            "title": "Line Id"
+          },
+          "sku": {
+            "type": "string",
+            "title": "Sku"
+          },
+          "location_id": {
+            "type": "string",
+            "title": "Location Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Quantity"
+          },
+          "x": {
+            "type": "number",
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "title": "Y"
+          }
+        },
+        "type": "object",
+        "required": [
+          "order_id",
+          "line_id",
+          "sku",
+          "location_id",
+          "quantity",
+          "x",
+          "y"
+        ],
+        "title": "OrderLine"
+      },
+      "ResponseMeta": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "default": "v1"
+          }
+        },
+        "type": "object",
+        "required": [
+          "request_id"
+        ],
+        "title": "ResponseMeta"
+      },
+      "RouteSegment": {
+        "properties": {
+          "from": {
+            "type": "string",
+            "title": "From"
+          },
+          "to": {
+            "type": "string",
+            "title": "To"
+          },
+          "segment_type": {
+            "type": "string",
+            "title": "Segment Type"
+          },
+          "distance_m": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Distance M"
+          },
+          "duration_s": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Duration S"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "segment_type",
+          "distance_m",
+          "duration_s"
+        ],
+        "title": "RouteSegment"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WmsWebhookPayload": {
+        "properties": {
+          "event": {
+            "type": "string",
+            "title": "Event",
+            "default": "wave_released"
+          },
+          "warehouse_id": {
+            "type": "string",
+            "title": "Warehouse Id"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          }
+        },
+        "type": "object",
+        "required": [
+          "warehouse_id",
+          "lines"
+        ],
+        "title": "WmsWebhookPayload"
+      }
+    }
+  }
+}
