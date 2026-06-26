@@ -39,6 +39,17 @@ When enabled, a local model parses supervisor language into validated constraint
 
 Base `qwen2.5:7b-instruct` via Ollama reached 99.33% aggregate field match on 100 held-out examples. LoRA fine-tune did not beat the baseline — see [fine-tune eval](docs/fine-tune-eval.md).
 
+## Hugging Face artifacts
+
+Public ML artifacts for reproducibility (optional; not required to run Docker or the API):
+
+| Artifact | Link | Notes |
+| --- | --- | --- |
+| Synthetic NL dataset | [pickai-synthetic-nl-parse-v1](https://huggingface.co/datasets/MuhibBeekun/pickai-synthetic-nl-parse-v1) | ~3k rows; optimizer ground-truth constraints |
+| Experimental LoRA | [pickai-qwen2.5-7b-nl-parse-lora](https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora) | Value gate failed; documented honestly |
+
+Canonical model/dataset cards live in [`docs/huggingface-lora-model-card.md`](docs/huggingface-lora-model-card.md) and [`docs/huggingface-dataset-card.md`](docs/huggingface-dataset-card.md).
+
 ## 30-second overview
 
 You send order lines and routing constraints. PickAI returns an ordered travel sequence with explicit pick and ladder-relocate steps, plus total distance and duration.
