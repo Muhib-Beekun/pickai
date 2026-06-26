@@ -177,3 +177,85 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
   1) git remote add github https://github.com/MuhibBeekun/pickai.git
   2) git push github main
 
+
+## Phase 2 checklist
+
+### Phase H â€” Hygiene & publish (TODO 101â€“108)
+
+- [x] **TODO 101** â€” Append Phase 2 checklist to `EXECUTION.md`.
+- [x] **TODO 102** â€” Fix git remotes: `upstream` = samirsaci/picking-route, `origin` = Muhib-Beekun/pickai.
+- [x] **TODO 103** â€” Push to GitHub; verify https://github.com/Muhib-Beekun/pickai loads.
+- [x] **TODO 104** â€” Remove/replace stub code in `eval_nl_parse.py` (delete hardcoded scores).
+- [x] **TODO 105** â€” Add `docs/data-lineage.md` (Mendeley real vs fallback, synthetic generation method).
+- [x] **TODO 106** â€” Verify no DeepSeek references in repo; grep clean.
+- [x] **TODO 107** â€” Verify all GPU scripts set `CUDA_VISIBLE_DEVICES=0`; document in README.
+- [ ] **TODO 108** â€” Commit: `chore: phase 2 hygiene and publish prep`.
+
+### Phase I â€” OR-Tools + 2.5D routing (TODO 109â€“118)
+
+- [x] **TODO 109** â€” Add `ortools` dependency; install in venv.
+- [x] **TODO 110** â€” Implement `pickai/domain/solver_ortools.py` TSP solver.
+- [x] **TODO 111** â€” Wire `optimize_wave` to solver via `PICKAI_SOLVER` env (default ortools).
+- [x] **TODO 112** â€” Add vertical pick time when `level`/`z` changes between stops.
+- [x] **TODO 113** â€” Add `ladder_state_after` to `OptimizedWave` contract + optimizer.
+- [x] **TODO 114** â€” Add `processing_time_ms` and `estimated_picker_time_saved_s` to API response meta.
+- [x] **TODO 115** â€” Write `docs/routing-model.md` (2D graph, 2.5D vertical, ladder state, forklift vs walker).
+- [x] **TODO 116** â€” Add `docs/tool-schema-compute_optimal_pick_path.json`.
+- [x] **TODO 117** â€” Tests: OR-Tools â‰¤ heuristic; ladder persistence; time-saved > 0 on fixture wave.
+- [ ] **TODO 118** â€” Commit: `feat: OR-Tools solver and 2.5D routing metrics`.
+
+### Phase J â€” Ground-truth data + dual-agent (TODO 119â€“126)
+
+- [ ] **TODO 119** â€” Rewrite `generate_synthetic_jsonl.py` to use optimizer ground truth.
+- [ ] **TODO 120** â€” Regenerate â‰¥3,000 rows; refresh `sample.jsonl`.
+- [ ] **TODO 121** â€” Implement `scripts/agentic_nl_refine.py` (writer + validator, 3 cycles).
+- [ ] **TODO 122** â€” Run agentic refine on 200 held-out examples; write `data/synthetic/refined_nl_parse.jsonl`.
+- [ ] **TODO 123** â€” Rewrite `eval_nl_parse.py` for real Ollama scoring (no hardcoded values).
+- [ ] **TODO 124** â€” Run baseline eval; record in `docs/fine-tune-eval.md` Â§ Before training.
+- [ ] **TODO 125** â€” Upload full synthetic JSONL to HF dataset repo with README.
+- [ ] **TODO 126** â€” Commit: `feat: ground-truth synthetic data and agentic refine pipeline`.
+
+### Phase K â€” LoRA train + HF model (TODO 127â€“134)
+
+- [ ] **TODO 127** â€” Implement `scripts/train_lora_nl_parse.py` (PEFT/Unsloth, 3090, bounded steps).
+- [ ] **TODO 128** â€” Run training; save `outputs/lora/`; capture loss log.
+- [ ] **TODO 129** â€” Run post-train eval; update `docs/fine-tune-eval.md` Â§ After training.
+- [ ] **TODO 130** â€” Upload LoRA to `MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora` with model card.
+- [ ] **TODO 131** â€” Upgrade `gateway.py`: dual-agent retry + optional LoRA load.
+- [ ] **TODO 132** â€” Streamlit chat uses upgraded gateway; manual smoke 3 NL commands logged in EXECUTION.md.
+- [ ] **TODO 133** â€” Docker Compose: document optional `HF_LORA_REPO` pull in README (not required for startup).
+- [ ] **TODO 134** â€” Commit: `feat: LoRA training, HF upload, and gateway upgrade`.
+
+### Phase L â€” Docs, CI, regression (TODO 135â€“145)
+
+- [ ] **TODO 135** â€” Regenerate `docs/openapi.json`; verify Swagger at `/docs`.
+- [ ] **TODO 136** â€” Update `docs/wms-integration-guide.md` with `ladder_state_after`, timing fields, tool schema link.
+- [ ] **TODO 137** â€” Final README (niche, links, solver modes, HF artifacts).
+- [ ] **TODO 138** â€” Update `docs/tmp/linkedin-article-draft.md` (no AI-build mention, live links).
+- [ ] **TODO 139** â€” Run CI locally: `pytest tests -q`, `verify_optimize_trace.py`, `preflight.ps1`.
+- [ ] **TODO 140** â€” Docker regression: `docker compose up -d --build`; health + Streamlit smoke.
+- [ ] **TODO 141** â€” GitHub Actions green on push (fix workflow if needed).
+- [ ] **TODO 142** â€” Mark all Phase 2 TODOs [x] in EXECUTION.md with completion log.
+- [ ] **TODO 143** â€” Print deliverables table (GitHub URL, HF URLs, eval scores, solver mode).
+- [ ] **TODO 144** â€” Commit: `docs: phase 2 release polish`.
+- [ ] **TODO 145** â€” Final push to `origin main`.
+
+---
+
+## Phase 2 log
+- TODO 101: Appended Phase 2 checklist from execution prompt.
+- TODO 102: Verified remotes as upstream=samirsaci/picking-route and origin=Muhib-Beekun/pickai.
+- TODO 103: Pushed to origin and verified public repo at https://github.com/Muhib-Beekun/pickai.
+- TODO 104: Replaced eval stub with live Ollama-based scoring pipeline in scripts/eval_nl_parse.py.
+- TODO 105: Added docs/data-lineage.md covering real Mendeley ingestion and synthetic generation provenance.
+- TODO 106: Ran `rg -n -i "deepseek" pickai scripts tests docs README.md --glob "!docs/tmp/**"` with no matches.
+- TODO 107: Verified GPU pinning in README and training script via `rg -n "CUDA_VISIBLE_DEVICES" scripts pickai README.md`.
+- TODO 109: Added OR-Tools dependency and installed updated requirements in venv.
+- TODO 110: Added pickai/domain/solver_ortools.py with OR-Tools routing model TSP path solver.
+- TODO 111: Wired optimizer solver selection via PICKAI_SOLVER with OR-Tools default and heuristic fallback.
+- TODO 112: Added vertical traversal time component for z/level transitions between sequential stops.
+- TODO 113: Added ladder_state_after contract field and optimizer persistence behavior.
+- TODO 114: Added processing_time_ms and estimated_picker_time_saved_s through optimizer and API meta envelope.
+- TODO 115: Added docs/routing-model.md covering 2D routing, 2.5D costs, and ladder/equipment behaviors.
+- TODO 116: Added docs/tool-schema-compute_optimal_pick_path.json.
+- TODO 117: Extended unit/integration tests and validated with `pytest -q` and `scripts/verify_optimize_trace.py`.
