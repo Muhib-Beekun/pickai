@@ -41,16 +41,16 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 
 ### Phase D â€” Ladder & equipment constraints (TODO 025â€“034)
 
-- [ ] **TODO 025** â€” Add `LadderState` to Streamlit session; sidebar displays current position; set/default controls.
-- [ ] **TODO 026** â€” Optimizer starts from ladder position when provided (not depot).
-- [ ] **TODO 027** â€” Detect aisle crossings; insert `ladder_relocate` segments with penalty constants in `pickai/domain/equipment.py`.
-- [ ] **TODO 028** â€” Toggle **Ladder must stay in aisle** â€” enforce constraint.
-- [ ] **TODO 029** â€” Equipment mode selector: Walker vs Forklift; speed/penalty profiles.
-- [ ] **TODO 030** â€” Forklift one-way aisle rules (config JSON in `data/fixtures/aisle_rules.json`).
-- [ ] **TODO 031** â€” Update time/distance totals for equipment mode.
-- [ ] **TODO 032** â€” Plotly visualization: color-coded segments + ladder marker (replace/improve matplotlib usage).
-- [ ] **TODO 033** â€” Multi-wave viewer in Streamlit session.
-- [ ] **TODO 034** â€” Tests for ladder relocate + aisle constraint. Commit: `feat: ladder and equipment-aware routing`.
+- [x] **TODO 025** â€” Add `LadderState` to Streamlit session; sidebar displays current position; set/default controls.
+- [x] **TODO 026** â€” Optimizer starts from ladder position when provided (not depot).
+- [x] **TODO 027** â€” Detect aisle crossings; insert `ladder_relocate` segments with penalty constants in `pickai/domain/equipment.py`.
+- [x] **TODO 028** â€” Toggle **Ladder must stay in aisle** â€” enforce constraint.
+- [x] **TODO 029** â€” Equipment mode selector: Walker vs Forklift; speed/penalty profiles.
+- [x] **TODO 030** â€” Forklift one-way aisle rules (config JSON in `data/fixtures/aisle_rules.json`).
+- [x] **TODO 031** â€” Update time/distance totals for equipment mode.
+- [x] **TODO 032** â€” Plotly visualization: color-coded segments + ladder marker (replace/improve matplotlib usage).
+- [x] **TODO 033** â€” Multi-wave viewer in Streamlit session.
+- [x] **TODO 034** â€” Tests for ladder relocate + aisle constraint. Commit: `feat: ladder and equipment-aware routing`.
 
 ### Phase E â€” FastAPI WMS integration (TODO 035â€“044)
 
@@ -122,3 +122,14 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 
 
 - TODO 024: Committed Mendeley adapter phase as 0146503.
+
+- TODO 025: Added LadderState controls in Streamlit session/sidebar with live display.
+- TODO 026: Optimizer now starts from ladder start_position when provided.
+- TODO 027: Added cross-aisle detection and ladder_relocate segments with penalties in pickai/domain/equipment.py + optimizer.
+- TODO 028: Added ladder_must_stay_in_aisle enforcement (raises constraint violation on cross-aisle route).
+- TODO 029: Added equipment selector (walker/forklift) with profile-based speed/penalty behavior.
+- TODO 030: Added forklift one-way aisle rules in data/fixtures/aisle_rules.json and applied penalty handling.
+- TODO 031: Updated total distance/duration calculation by equipment profile and relocate penalties.
+- TODO 032: Added Plotly route visualization with segment colors and ladder marker.
+- TODO 033: Added Streamlit multi-wave viewer selector/dataframe.
+- TODO 034: Added unit tests for ladder relocate + aisle constraint and verified pytest pass.

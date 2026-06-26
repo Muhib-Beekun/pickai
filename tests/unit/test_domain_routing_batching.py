@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from pickai.contracts import EquipmentMode, OptimizeConstraints, OptimizeRequest, OrderLine
 from pickai.domain.batching import locations_listing, orderlines_mapping
@@ -41,3 +42,29 @@ def test_optimize_wave_produces_segments():
     assert result.wave_id == "wave-test"
     assert result.total_distance_m > 0
     assert len(result.sequence) >= 1
+
+
+def test_ladder_relocate_segment_inserted_on_cross_aisle():
+    request = OptimizeRequest(
+        order_lines=[
+            OrderLine(order_id="o1", line_id="l1", sku="a", location_id="loc-a", quantity=1, x=1, y=9),
+            OrderLine(order_id="o1", line_id="l2", sku="b", location_id="loc-b", quantity=1, x=8, y=15),
+        ],
+        constraints=OptimizeConstraints(equipment_mode=EquipmentMode.walker, ladder_must_stay_in_aisle=False),
+        idempotency_key="wave-relocate",
+    )
+    result = optimize_wave(request)
+    assert any(segment.segment_type == "ladder_relocate" for segment in result.sequence)
+
+
+def test_ladder_stay_in_aisle_constraint_blocks_cross_aisle_route():
+    request = OptimizeRequest(
+        order_lines=[
+            OrderLine(order_id="o1", line_id="l1", sku="a", location_id="loc-a", quantity=1, x=1, y=9),
+            OrderLine(order_id="o1", line_id="l2", sku="b", location_id="loc-b", quantity=1, x=8, y=15),
+        ],
+        constraints=OptimizeConstraints(equipment_mode=EquipmentMode.walker, ladder_must_stay_in_aisle=True),
+        idempotency_key="wave-stay",
+    )
+    with pytest.raises(ValueError):
+        optimize_wave(request)

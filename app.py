@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 from pathlib import Path
+from ast import literal_eval
 from utils.routing.distances import (
 	distance_picking,
 	next_location
@@ -32,7 +34,7 @@ from utils.results.plot import (
 )
 import streamlit as st
 from streamlit import caching
-from pickai.contracts import EquipmentMode, OptimizeConstraints, OptimizeRequest, OrderLine
+from pickai.contracts import EquipmentMode, LadderState, OptimizeConstraints, OptimizeRequest, OrderLine
 from pickai.domain.optimizer import optimize_wave
 from pickai.adapters.mendeley_loader import load_mendeley_orderlines
 
@@ -66,7 +68,7 @@ def load_dataset(n, dataset_source, uploaded_file):
 	return load('df_lines.csv', n)
 
 
-def run_domain_optimizer_preview(df_orderlines):
+def run_domain_optimizer_preview(df_orderlines, constraints):
 	"""Run a small contract-based optimization preview from current dataframe."""
 	sample = df_orderlines.head(25).copy()
 	if sample.empty:
@@ -86,12 +88,51 @@ def run_domain_optimizer_preview(df_orderlines):
 			)
 		)
 
-	request = OptimizeRequest(
-		order_lines=order_lines,
-		constraints=OptimizeConstraints(equipment_mode=EquipmentMode.walker),
-		idempotency_key="streamlit-preview",
-	)
+    request = OptimizeRequest(order_lines=order_lines, constraints=constraints, idempotency_key="streamlit-preview")
 	return optimize_wave(request)
+
+
+def parse_point_label(label):
+	if label.startswith('(') and label.endswith(')'):
+		vals = label.strip('()').split(',')
+		return float(vals[0].strip()), float(vals[1].strip())
+	return None
+
+
+def plot_route_segments(preview, ladder_state):
+	rows = []
+	for seg in preview.sequence:
+		p1 = parse_point_label(seg.from_location)
+		p2 = parse_point_label(seg.to_location)
+		if p1 is None or p2 is None:
+			continue
+		rows.append({'x0': p1[0], 'y0': p1[1], 'x1': p2[0], 'y1': p2[1], 'segment_type': seg.segment_type})
+
+	fig = go.Figure()
+	color_map = {'walk': 'green', 'ladder_relocate': 'orange', 'pick': 'blue'}
+	for row in rows:
+		fig.add_trace(
+			go.Scatter(
+				x=[row['x0'], row['x1']],
+				y=[row['y0'], row['y1']],
+				mode='lines+markers',
+				line={'color': color_map.get(row['segment_type'], 'gray'), 'width': 3},
+				name=row['segment_type'],
+				showlegend=False,
+			)
+		)
+
+	fig.add_trace(
+		go.Scatter(
+			x=[ladder_state.x],
+			y=[ladder_state.y],
+			mode='markers',
+			marker={'size': 12, 'color': 'red', 'symbol': 'diamond'},
+			name='Ladder/Pick start',
+		)
+	)
+	fig.update_layout(title='Route segments by type', xaxis_title='X', yaxis_title='Y', height=500)
+	st.plotly_chart(fig, use_container_width=True)
 
 
 # Alley Coordinates on y-axis
@@ -107,6 +148,28 @@ mendeley_available = Path('data/mendeley/Picking_Wave.csv').exists() and Path('d
 dataset_default = 'Mendeley' if mendeley_available else 'Original'
 dataset_source = st.sidebar.selectbox('Dataset source', ['Original', 'Mendeley', 'Upload CSV'], index=['Original', 'Mendeley', 'Upload CSV'].index(dataset_default))
 uploaded_csv = st.sidebar.file_uploader('Upload order lines CSV', type=['csv']) if dataset_source == 'Upload CSV' else None
+
+if 'ladder_state' not in st.session_state:
+	st.session_state['ladder_state'] = LadderState(aisle='A1', level='1', x=0.0, y=y_low)
+
+st.sidebar.subheader('Ladder and equipment controls')
+ladder_x = st.sidebar.number_input('Ladder X', value=float(st.session_state['ladder_state'].x), step=1.0)
+ladder_y = st.sidebar.number_input('Ladder Y', value=float(st.session_state['ladder_state'].y), step=1.0)
+ladder_aisle = st.sidebar.text_input('Ladder aisle', value=str(st.session_state['ladder_state'].aisle or 'A1'))
+ladder_level = st.sidebar.text_input('Ladder level', value=str(st.session_state['ladder_state'].level or '1'))
+ladder_stay = st.sidebar.checkbox('Ladder must stay in aisle', value=False)
+equipment_mode = st.sidebar.selectbox('Equipment mode', ['walker', 'forklift'])
+
+st.session_state['ladder_state'] = LadderState(aisle=ladder_aisle, level=ladder_level, x=ladder_x, y=ladder_y)
+current_constraints = OptimizeConstraints(
+	ladder_must_stay_in_aisle=ladder_stay,
+	equipment_mode=EquipmentMode(equipment_mode),
+	start_position=st.session_state['ladder_state'],
+)
+
+st.sidebar.caption(
+	f"Current ladder position: aisle={st.session_state['ladder_state'].aisle}, level={st.session_state['ladder_state'].level}, x={st.session_state['ladder_state'].x}, y={st.session_state['ladder_state'].y}"
+)
 
 # Store Results by WaveID
 list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult = [], [], [], [], [], [], []
@@ -148,9 +211,16 @@ if start_1:
 	df_orderlines = load_dataset(lines_number, dataset_source, uploaded_csv)
 	df_waves, df_results = simulate_batch(n1, n2, y_low, y_high, origin_loc, lines_number, df_orderlines)
 	plot_simulation1(df_results, lines_number)
-	preview = run_domain_optimizer_preview(df_orderlines)
+	preview = run_domain_optimizer_preview(df_orderlines, current_constraints)
 	if preview is not None:
 		st.caption("Domain optimizer preview distance: {:,.0f} m".format(preview.total_distance_m))
+		plot_route_segments(preview, st.session_state['ladder_state'])
+		st.write('Route total duration (s): {:,.1f}'.format(preview.total_duration_s))
+
+	if not df_waves.empty:
+		wave_options = sorted(df_waves['wave'].unique())
+		selected_wave = st.selectbox('Multi-wave viewer', wave_options)
+		st.dataframe(df_waves[df_waves['wave'] == selected_wave])
 
 # Simulation 2: Order Batch using Spatial Clustering 
 # SCOPE SIZE
