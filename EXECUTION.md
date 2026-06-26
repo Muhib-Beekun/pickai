@@ -26,7 +26,7 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - [x] **TODO 013** â€” Add `pickai/domain/optimizer.py` â€” single entry `optimize_wave(request: OptimizeRequest) -> OptimizedWave`.
 - [x] **TODO 014** â€” Unit tests for routing/batching with `In/df_lines.csv` subset. **Exit:** pytest green.
 - [x] **TODO 015** â€” Refactor `app.py` to call `pickai.domain.optimizer` (thin UI). Verify Experiments 1 & 2 still work.
-- [ ] **TODO 016** â€” Commit: `refactor: domain layer and pydantic contracts`.
+- [x] **TODO 016** â€” Commit: `refactor: domain layer and pydantic contracts`.
 
 ### Phase C â€” Mendeley data pipeline (TODO 017â€“024)
 
@@ -108,3 +108,6 @@ Copy this entire section into `EXECUTION.md` on TODO 001. Mark items `[x]` as yo
 - TODO 013: Added pickai/domain/optimizer.py with optimize_wave contract entrypoint.
 - TODO 014: Added and ran unit tests; pytest tests/unit passed.
 - TODO 015: Refactored app.py to call domain optimizer preview while preserving baseline experiments.
+
+
+- TODO 016: Committed domain/contracts refactor as 328dd54 (follow-up cleanup removed transient __pycache__).

@@ -2,3 +2,5 @@
 venv/*
 App/*
 notes.txt
+__pycache__/
+*.pyc
