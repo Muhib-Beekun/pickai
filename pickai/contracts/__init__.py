@@ -9,6 +9,14 @@ from .types import (
     StorageLocation,
 )
 from .wms import WmsOrderExport, WmsWebhookPayload
+from .facility import (
+    FacilityProfile,
+    TaskLine,
+    TaskOptimizeRequest,
+    TaskOptimizeResult,
+    HeatMap,
+    ResourceAssignment,
+)
 
 __all__ = [
     "StorageLocation",
@@ -25,4 +33,10 @@ __all__ = [
     "ResponseMeta",
     "WmsOrderExport",
     "WmsWebhookPayload",
+    "FacilityProfile",
+    "TaskLine",
+    "TaskOptimizeRequest",
+    "TaskOptimizeResult",
+    "HeatMap",
+    "ResourceAssignment",
 ]

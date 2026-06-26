@@ -1,0 +1,2016 @@
+{
+  "tenant_id": "default",
+  "facility_id": "main",
+  "version": 1,
+  "name": "Main facility",
+  "layout": {
+    "y_low": 5.5,
+    "y_high": 50.0,
+    "origin_x": 0.0,
+    "origin_y": 5.5,
+    "staging_x": 0.0,
+    "staging_y": 5.5
+  },
+  "locations": [
+    {
+      "location_id": "L0001",
+      "x": 0.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0002",
+      "x": 1.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0003",
+      "x": 2.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0004",
+      "x": 3.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0005",
+      "x": 4.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0006",
+      "x": 5.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0007",
+      "x": 6.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0008",
+      "x": 7.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0009",
+      "x": 8.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0010",
+      "x": 9.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0011",
+      "x": 10.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0012",
+      "x": 11.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0013",
+      "x": 12.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0014",
+      "x": 13.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0015",
+      "x": 14.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0016",
+      "x": 15.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0017",
+      "x": 16.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0018",
+      "x": 17.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0019",
+      "x": 18.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0020",
+      "x": 19.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0021",
+      "x": 20.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0022",
+      "x": 21.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0023",
+      "x": 22.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0024",
+      "x": 23.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0025",
+      "x": 24.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0026",
+      "x": 25.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0027",
+      "x": 26.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0028",
+      "x": 27.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0029",
+      "x": 28.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0030",
+      "x": 29.0,
+      "y": 6.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0031",
+      "x": 0.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0032",
+      "x": 1.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0033",
+      "x": 2.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0034",
+      "x": 3.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0035",
+      "x": 4.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0036",
+      "x": 5.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0037",
+      "x": 6.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0038",
+      "x": 7.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0039",
+      "x": 8.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0040",
+      "x": 9.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0041",
+      "x": 10.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0042",
+      "x": 11.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0043",
+      "x": 12.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0044",
+      "x": 13.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0045",
+      "x": 14.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0046",
+      "x": 15.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0047",
+      "x": 16.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0048",
+      "x": 17.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0049",
+      "x": 18.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0050",
+      "x": 19.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0051",
+      "x": 20.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0052",
+      "x": 21.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0053",
+      "x": 22.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0054",
+      "x": 23.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0055",
+      "x": 24.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0056",
+      "x": 25.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0057",
+      "x": 26.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0058",
+      "x": 27.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0059",
+      "x": 28.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0060",
+      "x": 29.0,
+      "y": 10.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0061",
+      "x": 0.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0062",
+      "x": 1.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0063",
+      "x": 2.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0064",
+      "x": 3.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0065",
+      "x": 4.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0066",
+      "x": 5.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0067",
+      "x": 6.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0068",
+      "x": 7.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0069",
+      "x": 8.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0070",
+      "x": 9.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0071",
+      "x": 10.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0072",
+      "x": 11.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0073",
+      "x": 12.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0074",
+      "x": 13.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0075",
+      "x": 14.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0076",
+      "x": 15.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0077",
+      "x": 16.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0078",
+      "x": 17.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0079",
+      "x": 18.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0080",
+      "x": 19.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0081",
+      "x": 20.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0082",
+      "x": 21.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0083",
+      "x": 22.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0084",
+      "x": 23.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0085",
+      "x": 24.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0086",
+      "x": 25.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0087",
+      "x": 26.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0088",
+      "x": 27.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0089",
+      "x": 28.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0090",
+      "x": 29.0,
+      "y": 14.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0091",
+      "x": 0.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0092",
+      "x": 1.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0093",
+      "x": 2.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0094",
+      "x": 3.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0095",
+      "x": 4.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0096",
+      "x": 5.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0097",
+      "x": 6.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0098",
+      "x": 7.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z1",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0099",
+      "x": 8.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0100",
+      "x": 9.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0101",
+      "x": 10.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0102",
+      "x": 11.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0103",
+      "x": 12.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0104",
+      "x": 13.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0105",
+      "x": 14.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0106",
+      "x": 15.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z2",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0107",
+      "x": 16.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0108",
+      "x": 17.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0109",
+      "x": 18.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A1",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0110",
+      "x": 19.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A2",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0111",
+      "x": 20.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A3",
+      "level": "3",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0112",
+      "x": 21.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A4",
+      "level": "4",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0113",
+      "x": 22.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A5",
+      "level": "1",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0114",
+      "x": 23.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A6",
+      "level": "2",
+      "zone": "Z3",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0115",
+      "x": 24.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A7",
+      "level": "3",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0116",
+      "x": 25.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A8",
+      "level": "4",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0117",
+      "x": 26.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A9",
+      "level": "1",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0118",
+      "x": 27.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A10",
+      "level": "2",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0119",
+      "x": 28.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A11",
+      "level": "3",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    },
+    {
+      "location_id": "L0120",
+      "x": 29.0,
+      "y": 18.0,
+      "z": null,
+      "aisle": "A12",
+      "level": "4",
+      "zone": "Z4",
+      "attributes": {
+        "temp_controlled": false,
+        "hazmat": false,
+        "max_weight_kg": null,
+        "pick_height_m": null
+      },
+      "blocked": false
+    }
+  ],
+  "aisles": [
+    {
+      "aisle_id": "A1",
+      "direction": "increasing",
+      "blocked": false
+    },
+    {
+      "aisle_id": "A2",
+      "direction": "decreasing",
+      "blocked": false
+    },
+    {
+      "aisle_id": "A3",
+      "direction": "increasing",
+      "blocked": false
+    },
+    {
+      "aisle_id": "A4",
+      "direction": "decreasing",
+      "blocked": false
+    }
+  ],
+  "zones": [
+    {
+      "zone_id": "Z1",
+      "name": "West",
+      "x_min": 0.0,
+      "x_max": 11.0,
+      "y_min": 5.5,
+      "y_max": 50.0,
+      "pedestrian_only": false,
+      "forklift_only": false,
+      "attributes": {}
+    },
+    {
+      "zone_id": "Z2",
+      "name": "Center",
+      "x_min": 12.0,
+      "x_max": 23.0,
+      "y_min": 5.5,
+      "y_max": 50.0,
+      "pedestrian_only": false,
+      "forklift_only": false,
+      "attributes": {}
+    },
+    {
+      "zone_id": "Z3",
+      "name": "East",
+      "x_min": 24.0,
+      "x_max": 35.0,
+      "y_min": 5.5,
+      "y_max": 50.0,
+      "pedestrian_only": false,
+      "forklift_only": false,
+      "attributes": {}
+    }
+  ],
+  "resources": {
+    "pickers": 2,
+    "putters": 1
+  },
+  "pick_policy": "shortest_path",
+  "put_policy": "nearest_empty",
+  "picking_method": "wave",
+  "heat_config": {
+    "layers": [
+      "pick_density",
+      "walk_burden",
+      "congestion"
+    ]
+  },
+  "inference": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b-instruct",
+    "api_key_env": null,
+    "base_url": null
+  },
+  "cart_max_lines": 50,
+  "cart_max_weight_kg": 200.0,
+  "task_interleaving": "off"
+}

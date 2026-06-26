@@ -81,7 +81,30 @@ docker compose up -d --build
 4. Open:
 
 - API docs: http://localhost:8000/docs
-- Streamlit: http://localhost:8501
+- **Facility Console:** http://localhost:8502 (setup + operations map)
+- Streamlit lab (legacy simulation): http://localhost:8501
+
+## Facility Console
+
+Map-centric **setup** and **operations** in one app (`facility_app.py`):
+
+| Mode | What it does |
+| --- | --- |
+| **Setup** | Edit facility profile, aisle rules, BYOK inference, NL constraint chat |
+| **Operations** | Multi-picker optimize, pick+put tasks, heat overlays, route preview |
+| **Scenario compare** | Draft vs published profile distance/conflict comparison |
+
+**Facility profile** (`FacilityProfile`) stores layout, locations, zones, aisle rules, resource pool, heat config, and inference settings under `data/facilities/{tenant_id}/`. Default: `tenant_id=default`, `facility_id=main`.
+
+**API:**
+
+- `GET/PUT /v1/facility/profile`
+- `GET /v1/facility/profile/export?format=json|geojson`
+- `POST /v1/tasks/optimize` (pick + put; `/v1/waves/optimize` remains for WMS waves)
+
+```powershell
+streamlit run facility_app.py --server.port 8502
+```
 
 ## 5-minute operator walkthrough
 
@@ -130,6 +153,8 @@ flowchart LR
   API --> Contracts[Pydantic Contracts]
   Contracts --> Domain[Domain Optimizer]
   Domain --> Result[OptimizedWave]
+  Console[Facility Console] --> Domain
+  Console --> Profile[FacilityProfile store]
   UI[Streamlit Lab] --> Domain
   UI --> Gateway[Inference Gateway]
   Gateway --> Ollama[Ollama optional NL parse]
@@ -154,8 +179,11 @@ flowchart LR
 - **Voice input (Whisper):** speech → text → existing NL parser → same solver (hands-free supervisor constraints)
 - **Mobile shell:** route preview / supervisor chat app; production picking still via WMS RF
 - **Vendor WMS connectors:** packaged adapters on top of `/v1`
-- **Stronger ladder-position NL parsing:** improved synthetic data and eval for `start_position`
+- **Graph routing policies:** S-shape, largest-gap alongside OR-Tools TSP
+- **Slotting-adjacent heat:** ABC velocity overlay and move suggestions from pick history CSV
 - **Async optimize + webhook:** large waves with callback instead of poll-only
+
+Shipped in Facility Console v1: interactive map setup, multi-picker zone split, heat layers, pick+put tasks, profile export, BYOK inference config.
 
 ## Verification commands
 
@@ -173,7 +201,7 @@ Fine-tune artifacts are value-gated. See [docs/fine-tune-eval.md](docs/fine-tune
 
 - Default release path: runtime stays on base `qwen2.5:7b-instruct` via Ollama.
 - Optional local adapter path: set `PICKAI_USE_LORA=1` and keep `outputs/lora` available.
-- Current eval state: parity-pass holdout base 100.00% vs LoRA 44.67% aggregate (first misaligned run: 99.33% vs 17.67%).
+- Current eval state: parity-pass base 100.00% vs LoRA 44.67%; v2 pass (500 steps, rank 32) base 99.33% vs LoRA 16.67%.
 - Hugging Face artifacts (optional, not required for startup):
   - Dataset: https://huggingface.co/datasets/MuhibBeekun/pickai-synthetic-nl-parse-v1
   - Experimental LoRA: https://huggingface.co/MuhibBeekun/pickai-qwen2.5-7b-nl-parse-lora

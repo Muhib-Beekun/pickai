@@ -20,7 +20,7 @@ from pickai.inference.nl_parse_prompt import build_nl_parse_prompt
 SYNTHETIC_PATH = PROJECT_ROOT / "data" / "synthetic" / "synthetic_nl_parse.jsonl"
 HOLDOUT_PATH = PROJECT_ROOT / "data" / "synthetic" / "holdout_nl_parse.jsonl"
 EVAL_DOC = PROJECT_ROOT / "docs" / "fine-tune-eval.md"
-LOCAL_LORA_DIR = PROJECT_ROOT / "outputs" / "lora"
+LOCAL_LORA_DIR = Path(os.getenv("PICKAI_LORA_DIR", str(PROJECT_ROOT / "outputs" / "lora")))
 DEFAULT_BASE_MODEL = os.getenv("PICKAI_BASE_MODEL", "qwen2.5:7b-instruct")
 DEFAULT_LORA_MODEL = os.getenv("PICKAI_LORA_MODEL", "pickai-qwen2.5-lora")
 HOLDOUT_N = int(os.getenv("PICKAI_HOLDOUT_N", "100"))
@@ -206,19 +206,26 @@ def _write_section(section_title: str, holdout: list[dict], base_scores: dict, l
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=HOLDOUT_N)
+    parser.add_argument("--lora-dir", type=str, default=None, help="Path to LoRA adapter directory")
     parser.add_argument(
         "--phase",
         type=str,
         default="parity-pass",
-        choices=["before-training", "after-training", "parity-pass"],
+        choices=["before-training", "after-training", "parity-pass", "3b-pass", "v2-pass"],
     )
     args = parser.parse_args()
 
     holdout = _load_holdout(args.limit)
+    if args.lora_dir:
+        global LOCAL_LORA_DIR
+        LOCAL_LORA_DIR = Path(args.lora_dir)
+
     section_title = {
         "before-training": "## Before training",
         "after-training": "## After training",
         "parity-pass": "## Parity pass (prompt-aligned holdout)",
+        "3b-pass": "## 3B LoRA pass (prompt-aligned holdout)",
+        "v2-pass": "## V2 LoRA pass (500 steps, rank 32)",
     }[args.phase]
 
     base_scores = _evaluate(

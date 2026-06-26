@@ -14,4 +14,4 @@ torch>=2.4
 transformers>=4.45
 datasets>=2.20
 peft>=0.12
-accelerate>=0.34
+huggingface_hub>=0.24

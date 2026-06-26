@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import time
 from pathlib import Path
 
@@ -34,14 +33,8 @@ def _log(task_type: str, model: str, latency_ms: int, status: str) -> None:
         )
 
 
-def _extract_json(text: str) -> dict:
-    match = re.search(r"\{.*\}", text, flags=re.DOTALL)
-    if not match:
-        return {}
-    try:
-        return json.loads(match.group(0))
-    except json.JSONDecodeError:
-        return {}
+from pickai.inference.nl_parse_extract import extract_constraints_json
+from pickai.inference.nl_parse_prompt import build_nl_parse_prompt
 
 
 def _heuristic_parse(text: str) -> dict:
@@ -113,15 +106,10 @@ def _generate(prompt: str, model: str) -> str:
     return _ollama_generate(prompt, model)
 
 
-def _writer_prompt(text: str, feedback: str | None) -> str:
-    prompt = (
-        "Return JSON only. Schema: {\"constraints\": {\"equipment_mode\": \"walker|forklift\", "
-        "\"ladder_must_stay_in_aisle\": bool, \"start_position\": {\"aisle\": str, \"level\": str, "
-        "\"x\": number, \"y\": number}}}.\n"
-        f"User request: {text}\n"
-    )
+def _writer_prompt(text: str, feedback: str | None, wave_input: dict | None = None) -> str:
+    prompt = build_nl_parse_prompt(text, wave_input or {})
     if feedback:
-        prompt += f"Validator feedback: {feedback}\n"
+        prompt += f"\nValidator feedback: {feedback}\n"
     return prompt
 
 
@@ -144,8 +132,8 @@ def _parse_with_dual_agent(text: str, model: str) -> tuple[dict, float]:
     feedback = None
 
     for cycle in range(3):
-        response = _generate(_writer_prompt(text, feedback), model)
-        parsed = _extract_json(response)
+        response = _generate(_writer_prompt(text, feedback, {"source": "gateway"}), model)
+        parsed = {"constraints": extract_constraints_json(response)}
         is_valid, feedback = _validate_constraints(parsed)
         score = 1.0 if is_valid else max(0.0, 0.7 - (cycle * 0.2))
         if score > best_score:

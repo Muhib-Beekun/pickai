@@ -9,6 +9,23 @@ services:
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
     ports:
       - "8000:8000"
+    volumes:
+      - ./data/facilities:/app/data/facilities
+
+  facility:
+    build: .
+    command: python -m streamlit run facility_app.py --server.address 0.0.0.0 --server.port 8502 --server.headless true
+    env_file:
+      - .env
+    environment:
+      - PICKAI_API_KEY=${PICKAI_API_KEY:-dev}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    ports:
+      - "8502:8502"
+    volumes:
+      - ./data/facilities:/app/data/facilities
+    depends_on:
+      - api
 
   streamlit:
     build: .

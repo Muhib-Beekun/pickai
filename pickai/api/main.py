@@ -15,7 +15,10 @@ from pickai.contracts import (
     RunStatus,
     WmsWebhookPayload,
 )
+from pickai.contracts.facility import FacilityProfile, TaskOptimizeRequest
 from pickai.domain.optimizer import optimize_wave
+from pickai.domain.tasks import optimize_tasks
+from pickai.facility.store import facility_store
 
 
 app = FastAPI(title="PickAI API", version="v1")
@@ -128,4 +131,86 @@ def wms_webhook(
             "signature_validation": f"stub_{signature_status}",
         },
         "meta": {"request_id": f"req_{uuid.uuid4().hex[:12]}", "version": "v1"},
+    }
+
+
+@app.get("/v1/facility/profile")
+def get_facility_profile(
+    tenant_id: str = Query(default="default"),
+    facility_id: str = Query(default="main"),
+    x_api_key: str | None = Header(default=None),
+) -> dict:
+    _validate_api_key(x_api_key)
+    profile = facility_store.load(tenant_id=tenant_id, facility_id=facility_id)
+    return {
+        "data": profile.model_dump(mode="json"),
+        "meta": {"request_id": f"req_{uuid.uuid4().hex[:12]}", "version": "v1"},
+    }
+
+
+@app.put("/v1/facility/profile")
+def put_facility_profile(
+    profile: FacilityProfile,
+    publish: bool = Query(default=False),
+    x_api_key: str | None = Header(default=None),
+) -> dict:
+    _validate_api_key(x_api_key)
+    saved = facility_store.publish(profile) if publish else facility_store.save(profile)
+    return {
+        "data": saved.model_dump(mode="json"),
+        "meta": {"request_id": f"req_{uuid.uuid4().hex[:12]}", "version": "v1"},
+    }
+
+
+@app.get("/v1/facility/profile/export")
+def export_facility_profile(
+    tenant_id: str = Query(default="default"),
+    facility_id: str = Query(default="main"),
+    format: str = Query(default="json"),
+    x_api_key: str | None = Header(default=None),
+) -> dict:
+    _validate_api_key(x_api_key)
+    profile = facility_store.load(tenant_id=tenant_id, facility_id=facility_id)
+    if format == "geojson":
+        return {
+            "data": facility_store.export_geojson(profile),
+            "meta": {
+                "request_id": f"req_{uuid.uuid4().hex[:12]}",
+                "version": "v1",
+                "facility_profile_version": profile.version,
+            },
+        }
+    return {
+        "data": profile.model_dump(mode="json"),
+        "meta": {
+            "request_id": f"req_{uuid.uuid4().hex[:12]}",
+            "version": "v1",
+            "facility_profile_version": profile.version,
+        },
+    }
+
+
+@app.post("/v1/tasks/optimize")
+def optimize_tasks_endpoint(
+    request: TaskOptimizeRequest,
+    tenant_id: str = Query(default="default"),
+    facility_id: str = Query(default="main"),
+    x_api_key: str | None = Header(default=None),
+) -> dict:
+    _validate_api_key(x_api_key)
+    profile = facility_store.load(tenant_id=tenant_id, facility_id=facility_id)
+    if request.facility_profile_version and request.facility_profile_version != profile.version:
+        raise HTTPException(
+            status_code=409,
+            detail=f"facility_profile_version_mismatch: expected {profile.version}",
+        )
+    result = optimize_tasks(request, profile=profile)
+    return {
+        "data": result.model_dump(mode="json"),
+        "meta": {
+            "request_id": f"req_{uuid.uuid4().hex[:12]}",
+            "version": "v1",
+            "processing_time_ms": result.processing_time_ms,
+            "facility_profile_version": profile.version,
+        },
     }

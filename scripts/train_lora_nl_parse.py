@@ -19,9 +19,10 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 SYNTHETIC = PROJECT_ROOT / "data" / "synthetic" / "synthetic_nl_parse.jsonl"
 REFINED = PROJECT_ROOT / "data" / "synthetic" / "refined_nl_parse.jsonl"
 HOLDOUT_PATH = PROJECT_ROOT / "data" / "synthetic" / "holdout_nl_parse.jsonl"
-OUT_DIR = PROJECT_ROOT / "outputs" / "lora"
-LOG_FILE = PROJECT_ROOT / "outputs" / "lora_train_log.json"
+OUT_DIR = Path(os.getenv("PICKAI_LORA_OUT_DIR", str(PROJECT_ROOT / "outputs" / "lora")))
+LOG_FILE = OUT_DIR.parent / f"{OUT_DIR.name}_train_log.json"
 BASE_MODEL = os.getenv("PICKAI_TRAIN_BASE_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+GPU_STRICT = os.getenv("PICKAI_GPU_STRICT", "1") == "1"
 HOLDOUT_N = int(os.getenv("PICKAI_HOLDOUT_N", "100"))
 
 
@@ -61,7 +62,7 @@ def main() -> None:
         raise RuntimeError("CUDA is unavailable; cannot run 3090 LoRA training")
 
     device_name = torch.cuda.get_device_name(0)
-    if "3090" not in device_name:
+    if GPU_STRICT and "3090" not in device_name:
         raise RuntimeError(f"GPU policy violation: expected RTX 3090, found {device_name}")
 
     tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
@@ -117,7 +118,7 @@ def main() -> None:
         max_steps=int(os.getenv("PICKAI_MAX_STEPS", "150")),
         per_device_train_batch_size=1,
         gradient_accumulation_steps=8,
-        learning_rate=2e-4,
+        learning_rate=float(os.getenv("PICKAI_LEARNING_RATE", "2e-4")),
         fp16=True,
         logging_steps=10,
         save_steps=200,
